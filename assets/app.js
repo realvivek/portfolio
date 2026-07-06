@@ -27,10 +27,12 @@ var PROJECTS = [
   {
     index: '/ 01 /',
     name: 'spectral nexus',
-    desc: 'Broadband funding intelligence console — coverage gaps, BEAD allocations, ' +
-          'CBRS zones and RDOF defaults across 3,143 US counties.',
+    desc: 'An interactive atlas of America\u2019s broadband story \u2014 coverage gaps, ' +
+          'BEAD funding flows, CBRS spectrum zones and RDOF defaults across all ' +
+          '3,143 US counties. Every county is scored for opportunity, so the map ' +
+          'answers one question: where should the next network get built?',
     tags: 'BEAD · CBRS · GIS · FUNDING',
-    url: 'https://realvivek.github.io/spectral-nexus/',
+    url: 'https://realvivek.github.io/spectral-nexus/public/index.html',
     source: 'https://github.com/realvivek/spectral-nexus'
   },
   {
@@ -67,7 +69,7 @@ var PROJECTS = [
   }).join('');
 
   // Two dashed ghost slots so the ranking silhouette reads like a chart.
-  for (var g = 0; g < 2; g++) {
+  for (var g = 0; g < 1; g++) {
     var n = PROJECTS.length + g + 1;
     html += (
       '<div class="rank-card rank-ghost" aria-hidden="true">' +
