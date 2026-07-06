@@ -6,6 +6,8 @@ private 5G · edge AI · smart city infrastructure.
 Static site (HTML/CSS/JS, no build step). Deployed on Render; pushes to `main`
 go live automatically.
 
+Live at: https://portfolio-1jet.onrender.com
+
 ## Structure
 
 ```

@@ -59,3 +59,6 @@
   Iterate on REV B — do not resurrect A or C without being asked.
 - If stock imagery is ever reintroduced: visually verify every image before use, give
   every `img` a real `alt`, and set a background fallback color in case the CDN fails.
+
+## Live URL
+- https://portfolio-1jet.onrender.com (Render static site srv-d95fsdhoagis738qu120)
