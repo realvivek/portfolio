@@ -1,0 +1,535 @@
+/* ==========================================================================
+   VY-PF-001 REV B — Portfolio stylesheet
+   Language: editorial data-storytelling (after Zajno's "AI Progress" study).
+   Paper & slate grounds, grain, lowercase Instrument Serif titles, mono chip
+   labels, one visualization per full-screen chapter, corner annotations.
+   ========================================================================== */
+
+:root {
+  --paper:    #E8E8E4;
+  --paper-hi: #F4F4F1;
+  --ink:      #141A20;
+  --ink-60:   #59636D;
+  --ink-40:   #97A0A9;
+  --slate:    #151D27;
+  --slate-hi: #1D2836;
+  --mist:     #CBD5DF;
+  --mist-60:  #8595A6;
+  --line-l:   rgba(20, 26, 32, 0.16);
+  --line-d:   rgba(203, 213, 223, 0.16);
+  --blue:     #7288A0;
+
+  --serif: "Instrument Serif", Georgia, serif;
+  --sans:  "Inter", system-ui, sans-serif;
+  --mono:  "IBM Plex Mono", ui-monospace, monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--ink); color: var(--paper); }
+
+a:focus-visible { outline: 1.5px solid currentColor; outline-offset: 4px; }
+
+/* ---------- Grain ---------- */
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- Top bar ---------- */
+
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px clamp(18px, 3vw, 36px);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  mix-blend-mode: difference;
+  color: #E8E8E4;
+}
+.topbar-nav { display: flex; gap: clamp(10px, 2.4vw, 26px); }
+.topbar-nav a {
+  color: inherit;
+  text-decoration: none;
+  padding: 3px 0;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.25s ease;
+}
+.topbar-nav a:hover { border-bottom-color: currentColor; }
+.topbar-id, .topbar-rev { white-space: nowrap; }
+
+/* ---------- Chapters ---------- */
+
+.chapter {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(84px, 12vh, 120px) clamp(20px, 5vw, 64px) clamp(56px, 8vh, 96px);
+  overflow: hidden;
+}
+.chapter-light { background: var(--paper); color: var(--ink); }
+.chapter-dark  { background: var(--slate); color: var(--mist); }
+
+.chapter-core {
+  width: min(1060px, 100%);
+  text-align: center;
+}
+
+/* ---------- Type ---------- */
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  color: var(--ink-60);
+  margin-bottom: 18px;
+}
+.chapter-dark .eyebrow { color: var(--mist-60); }
+
+.title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(2.7rem, 7.4vw, 5.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+}
+
+.lede {
+  max-width: 34em;
+  margin: 26px auto 0;
+  font-size: clamp(0.86rem, 1.4vw, 0.98rem);
+  color: var(--ink-60);
+}
+.chapter-dark .lede { color: var(--mist-60); }
+
+/* ---------- Corner notes ---------- */
+
+.note {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px;
+  border: 1px solid var(--line-l);
+  text-align: left;
+  max-width: 220px;
+}
+.chapter-dark .note { border-color: var(--line-d); }
+.note-tl { top: clamp(64px, 9vh, 92px); left: clamp(18px, 3vw, 36px); }
+.note-tr { top: clamp(64px, 9vh, 92px); right: clamp(18px, 3vw, 36px); }
+.note-title {
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  text-transform: lowercase;
+}
+.note-sub {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+.chapter-dark .note-sub { color: var(--mist-60); }
+
+/* ---------- Chips, pills ---------- */
+
+.pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--line-l);
+  border-radius: 999px;
+  padding: 9px 18px;
+  background: var(--paper-hi);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.chapter-dark .pill {
+  background: var(--slate-hi);
+  border-color: var(--line-d);
+}
+.pill:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.14); }
+.pill-big { font-size: 0.72rem; padding: 13px 26px; margin-top: 30px; }
+.pill-pending { cursor: default; color: var(--mist-60); margin-top: 30px; }
+
+/* ---------- Chapter 01: constellation ---------- */
+
+.constellation {
+  position: relative;
+  width: min(760px, 100%);
+  height: clamp(240px, 38vh, 340px);
+  margin: clamp(28px, 5vh, 52px) auto 0;
+}
+.halo {
+  position: absolute;
+  left: 50%; top: 62%;
+  width: 78%; height: 46%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(114, 136, 160, 0.16), transparent 65%);
+  filter: blur(6px);
+}
+#arcs {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+#arcs path {
+  fill: none;
+  stroke: var(--ink-40);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+  animation: arc-drift 26s linear infinite;
+}
+@keyframes arc-drift { to { stroke-dashoffset: -160; } }
+
+.node {
+  position: absolute;
+  left: var(--x); top: var(--y);
+  transform: translate(-50%, -50%);
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  white-space: nowrap;
+  padding: 6px 10px;
+  background: var(--paper-hi);
+  border: 1px solid var(--line-l);
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(20, 26, 32, 0.08);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.node:hover {
+  transform: translate(-50%, -52%) translateY(-2px);
+  box-shadow: 0 5px 14px rgba(20, 26, 32, 0.14);
+}
+.node-root {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  padding: 7px 12px;
+}
+
+.scroll-hint {
+  margin-top: clamp(22px, 4vh, 40px);
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.24em;
+  color: var(--ink-40);
+  animation: hint-fade 3.2s ease-in-out infinite;
+}
+@keyframes hint-fade { 0%,100% { opacity: 0.9; } 50% { opacity: 0.3; } }
+
+/* ---------- Chapter 02: interactive city ---------- */
+
+.city-wrap { margin-top: clamp(28px, 5vh, 48px); }
+
+.city-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+#cityscape {
+  display: block;
+  width: 100%;
+  min-width: 720px; /* keeps touch targets usable on phones (scrolls sideways) */
+  height: auto;
+}
+
+/* scenery */
+.bld rect { fill: var(--slate-hi); stroke: var(--line-d); stroke-width: 1; }
+/* CSS fill beats the SVG attribute, so re-assert the window pattern */
+.bld rect[fill^="url"] { fill: url(#win); stroke: none; }
+.ground { stroke: var(--mist-60); stroke-width: 1.2; }
+.fiber {
+  stroke: var(--blue);
+  stroke-width: 1;
+  stroke-dasharray: 2 6;
+  opacity: 0.7;
+}
+.pole line { stroke: var(--mist-60); stroke-width: 1.4; }
+.lamp { fill: rgba(203, 213, 223, 0.65); }
+.sig { fill: none; stroke: var(--mist-60); stroke-width: 1.2; }
+.kioskbox { fill: var(--slate-hi); stroke: var(--mist-60); stroke-width: 1.2; }
+.pad { stroke: var(--mist-60); stroke-width: 2; }
+
+.cov {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 1;
+  stroke-dasharray: 3 6;
+  opacity: 0.5;
+  animation: arc-drift 30s linear infinite;
+}
+.cov-big { opacity: 0.32; }
+
+.link {
+  fill: none;
+  stroke: var(--mist-60);
+  stroke-width: 0.8;
+  stroke-dasharray: 3 5;
+  opacity: 0.55;
+  animation: arc-drift 26s linear infinite;
+}
+
+/* animated actors */
+.drone { stroke: var(--mist); stroke-width: 1.7; fill: none; }
+.drone-light {
+  fill: var(--mist);
+  stroke: none;
+  animation: node-pulse 1.1s ease-in-out infinite;
+}
+.drone, .cnode[data-id="drone"] { animation: drone-drift 14s ease-in-out infinite; }
+@keyframes drone-drift {
+  0%, 100% { transform: translate(0, 0); }
+  50%      { transform: translate(-120px, 14px); }
+}
+#drone-body { translate: 700px 84px; }
+/* the animation overrides the SVG transform attribute, so position via
+   the composable `translate` property instead */
+.cnode[data-id="drone"] { translate: 700px 84px; }
+
+.agv rect, .agv circle { fill: var(--slate-hi); stroke: var(--mist-60); stroke-width: 1.2; }
+.agv, .cnode[data-id="agv"] { animation: agv-drift 22s ease-in-out infinite; }
+@keyframes agv-drift {
+  0%, 100% { transform: translate(0, 0); }
+  50%      { transform: translate(-110px, 0); }
+}
+#agv-body { translate: 500px 358px; }
+.cnode[data-id="agv"] { translate: 500px 346px; }
+
+/* clickable nodes */
+.cnode { cursor: pointer; outline: none; }
+.cnode .dot {
+  r: 4.5;
+  fill: var(--mist);
+  animation: node-pulse 2.6s ease-in-out infinite;
+}
+.cnode .ring {
+  r: 9;
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 1;
+  opacity: 0.6;
+}
+.cnode .hit { r: 17; fill: transparent; stroke: none; }
+.cnode:hover .dot, .cnode:focus-visible .dot { fill: #fff; animation: none; }
+.cnode:focus-visible .ring { stroke: var(--mist); }
+.cnode.on .dot { fill: var(--blue); animation: none; r: 5.5; }
+.cnode.on .ring { stroke: var(--mist); opacity: 1; r: 11; }
+.cloud-tag {
+  fill: var(--mist-60);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+  text-anchor: middle;
+}
+@keyframes node-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+/* detail card */
+.city-card {
+  max-width: 620px;
+  margin: 18px auto 0;
+  border: 1px solid var(--line-d);
+  padding: 18px 22px 20px;
+  text-align: center;
+  min-height: 158px;
+}
+.city-cat {
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  color: var(--blue);
+}
+.city-name {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  text-transform: lowercase;
+  margin-top: 6px;
+  color: var(--mist);
+}
+.city-desc {
+  font-size: 0.84rem;
+  color: var(--mist-60);
+  max-width: 36em;
+  margin: 10px auto 0;
+}
+.city-path {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: var(--mist-60);
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-d);
+}
+
+/* ---------- Chapter 03: ranked project cards ---------- */
+
+.rank {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(12px, 2vw, 22px);
+  margin-top: clamp(36px, 6vh, 64px);
+}
+.rank-card {
+  flex: 0 1 300px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 26px 22px 22px;
+  border: 1px solid var(--line-l);
+  border-radius: 10px;
+  background: transparent;
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+.rank-featured {
+  background: var(--paper-hi);
+  min-height: clamp(300px, 44vh, 400px);
+  box-shadow: 0 10px 34px rgba(20, 26, 32, 0.1);
+}
+.rank-featured:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(20, 26, 32, 0.14); }
+.rank-ghost {
+  min-height: clamp(190px, 28vh, 250px);
+  border-style: dashed;
+  color: var(--ink-40);
+  justify-content: center;
+  gap: 8px;
+}
+.rank-index {
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  color: var(--ink-60);
+}
+.rank-name {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  text-transform: lowercase;
+  margin-top: 10px;
+}
+.rank-desc {
+  font-size: 0.8rem;
+  color: var(--ink-60);
+  max-width: 26em;
+  margin: 12px auto 0;
+  flex: 1;
+}
+.rank-tags {
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.14em;
+  color: var(--blue);
+  margin-top: 14px;
+}
+.rank-links {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+.rank-ghost .rank-index { color: var(--ink-40); }
+.rank-ghost-label {
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+}
+
+/* ---------- Chapter 04: colophon ---------- */
+
+.colophon {
+  position: absolute;
+  left: clamp(18px, 3vw, 36px);
+  right: clamp(18px, 3vw, 36px);
+  bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-d);
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.14em;
+  color: var(--mist-60);
+}
+
+/* ---------- Reveal (JS adds .js to <html>; failsafe in app.js) ---------- */
+
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+html.js .reveal.in { opacity: 1; transform: none; }
+html.js .reveal:nth-child(2) { transition-delay: 0.08s; }
+html.js .reveal:nth-child(3) { transition-delay: 0.16s; }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .stats { grid-template-columns: 1fr; gap: 26px; text-align: center; }
+  .stat { border-top: none; border-bottom: 1px solid var(--line-d); padding: 0 0 22px; }
+  .stat:last-child { border-bottom: none; padding-bottom: 0; }
+  .rank { flex-direction: column; align-items: stretch; }
+  .rank-card { flex-basis: auto; min-height: 0; }
+  .rank-ghost { min-height: 0; padding: 18px; }
+}
+
+@media (max-width: 600px) {
+  .topbar { font-size: 0.52rem; }
+  .topbar-rev { display: none; }
+  .note { display: none; }
+  .constellation { height: 300px; }
+  .node { font-size: 0.5rem; padding: 5px 8px; }
+  /* !important so these beat the inline --x on narrow screens */
+  .node:nth-of-type(2) { --x: 17% !important; }
+  .node:last-of-type   { --x: 82% !important; }
+  .colophon { flex-direction: column; gap: 4px; text-align: center; }
+  .colophon-mid { order: 2; }
+}
+
+/* ---------- Print ---------- */
+
+@media print {
+  .grain, .topbar, .scroll-hint { display: none; }
+  .chapter { min-height: 0; page-break-inside: avoid; }
+  .chapter-dark { background: #fff; color: #000; }
+  html.js .reveal { opacity: 1; transform: none; }
+}
