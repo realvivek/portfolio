@@ -32,6 +32,16 @@ var PROJECTS = [
     tags: 'BEAD · CBRS · GIS · FUNDING',
     url: 'https://realvivek.github.io/spectral-nexus/',
     source: 'https://github.com/realvivek/spectral-nexus'
+  },
+  {
+    index: '/ 02 /',
+    name: 'tx highway',
+    desc: 'Live Bitcoin and Ethereum traffic — every vehicle is a real mempool ' +
+          'transaction streamed over public WebSockets, sized by USD value. ' +
+          'Rewind replays the actual blocks from any past moment.',
+    tags: 'BITCOIN · ETHEREUM · WEBSOCKETS · CANVAS',
+    url: 'https://txhighway.onrender.com',
+    source: 'https://github.com/realvivek/txhighway'
   }
 ];
 
