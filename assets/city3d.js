@@ -564,12 +564,162 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.m
     }
   }
 
-  /* ---------- interaction: parallax, hover glow, clicks ---------- */
+  /* ---------- RF coverage lens (hold + drag with a mouse) ----------
+     Ground heatmap of mast signal strength with real line-of-sight
+     occlusion: at init, rays are traced from each mast to a grid of
+     ground cells against every building footprint. Taller masts get
+     more range. Revealed only inside a draggable lens. */
+
+  var AREA = { x0: -115, x1: 115, z0: -85, z1: 60 };
+  var OCC_N = SMALL ? 64 : 96;
+  var occData = null;
+
+  function mastRange(m) { return 30 + m.y * 1.15; }
+
+  var lensUniforms = {
+    uOcc:  { value: null },
+    uM0:   { value: new THREE.Vector3(0, 0, 1) },
+    uM1:   { value: new THREE.Vector3(0, 0, 1) },
+    uM2:   { value: new THREE.Vector3(0, 0, 1) },
+    uLens: { value: new THREE.Vector2(0, 39) },
+    uR:    { value: 26 },
+    uAmt:  { value: 0 },
+    uArea: { value: new THREE.Vector4(AREA.x0, AREA.z0, AREA.x1 - AREA.x0, AREA.z1 - AREA.z0) }
+  };
+
+  var lensMat = new THREE.ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    uniforms: lensUniforms,
+    vertexShader: [
+      'varying vec3 vW;',
+      'void main() {',
+      '  vW = (modelMatrix * vec4(position, 1.0)).xyz;',
+      '  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
+      '}'
+    ].join('\n'),
+    fragmentShader: [
+      'uniform sampler2D uOcc;',
+      'uniform vec3 uM0; uniform vec3 uM1; uniform vec3 uM2;',
+      'uniform vec2 uLens; uniform float uR; uniform float uAmt; uniform vec4 uArea;',
+      'varying vec3 vW;',
+      'float contrib(vec3 m, float vis) {',
+      '  float d = distance(vW.xz, m.xy);',
+      '  float base = pow(clamp(1.0 - d / m.z, 0.0, 1.0), 1.55);',
+      '  return base * (0.18 + 0.82 * vis);',
+      '}',
+      'void main() {',
+      '  vec2 uv = vec2((vW.x - uArea.x) / uArea.z, (vW.z - uArea.y) / uArea.w);',
+      '  vec3 vis = texture2D(uOcc, uv).rgb;',
+      '  float s = max(contrib(uM0, vis.r), max(contrib(uM1, vis.g), contrib(uM2, vis.b)));',
+      '  vec3 c1 = vec3(0.086, 0.114, 0.153);',
+      '  vec3 c2 = vec3(0.169, 0.251, 0.345);',
+      '  vec3 c3 = vec3(0.447, 0.533, 0.627);',
+      '  vec3 c4 = vec3(0.910, 0.937, 0.957);',
+      '  vec3 col = s < 0.34 ? mix(c1, c2, s / 0.34)',
+      '           : s < 0.67 ? mix(c2, c3, (s - 0.34) / 0.33)',
+      '           : mix(c3, c4, (s - 0.67) / 0.33);',
+      '  float dl = distance(vW.xz, uLens);',
+      '  float mask = 1.0 - smoothstep(uR * 0.8, uR, dl);',
+      '  float rim = smoothstep(uR * 0.93, uR * 0.985, dl) * (1.0 - smoothstep(uR * 0.985, uR * 1.03, dl));',
+      '  float a = uAmt * (mask * (0.42 + 0.5 * s) + rim * 0.85);',
+      '  gl_FragColor = vec4(col + rim * vec3(0.55, 0.63, 0.72), a);',
+      '}'
+    ].join('\n')
+  });
+
+  var lensPlane = new THREE.Mesh(
+    new THREE.PlaneGeometry(AREA.x1 - AREA.x0, AREA.z1 - AREA.z0), lensMat);
+  lensPlane.rotation.x = -Math.PI / 2;
+  lensPlane.position.set((AREA.x0 + AREA.x1) / 2, 0.12, (AREA.z0 + AREA.z1) / 2);
+  lensPlane.visible = false;
+  scene.add(lensPlane);
+
+  function buildOcclusion() {
+    var boxes = buildings.map(function (b) {
+      var g = b.geometry.parameters;
+      return {
+        minx: b.position.x - g.width / 2, maxx: b.position.x + g.width / 2,
+        minz: b.position.z - g.depth / 2, maxz: b.position.z + g.depth / 2
+      };
+    });
+    function blocked(ax, az, bx, bz) {
+      var dx = bx - ax, dz = bz - az;
+      for (var i = 0; i < boxes.length; i++) {
+        var o = boxes[i];
+        var tmin = 0, tmax = 1;
+        if (Math.abs(dx) < 1e-6) {
+          if (ax < o.minx || ax > o.maxx) continue;
+        } else {
+          var t1 = (o.minx - ax) / dx, t2 = (o.maxx - ax) / dx;
+          if (t1 > t2) { var t = t1; t1 = t2; t2 = t; }
+          tmin = Math.max(tmin, t1); tmax = Math.min(tmax, t2);
+          if (tmin > tmax) continue;
+        }
+        if (Math.abs(dz) < 1e-6) {
+          if (az < o.minz || az > o.maxz) continue;
+        } else {
+          var t3 = (o.minz - az) / dz, t4 = (o.maxz - az) / dz;
+          if (t3 > t4) { var u = t3; t3 = t4; t4 = u; }
+          tmin = Math.max(tmin, t3); tmax = Math.min(tmax, t4);
+          if (tmin > tmax) continue;
+        }
+        if (tmax > 0.02 && tmin < 0.98) return true;
+      }
+      return false;
+    }
+    var data = new Uint8Array(OCC_N * OCC_N * 4);
+    for (var iy = 0; iy < OCC_N; iy++) {
+      for (var ix = 0; ix < OCC_N; ix++) {
+        var wx = AREA.x0 + (ix + 0.5) / OCC_N * (AREA.x1 - AREA.x0);
+        var wz = AREA.z0 + (iy + 0.5) / OCC_N * (AREA.z1 - AREA.z0);
+        var off = (iy * OCC_N + ix) * 4;
+        for (var mi = 0; mi < 3; mi++) {
+          var m = masts[mi];
+          data[off + mi] = (m && !blocked(m.x, m.z, wx, wz)) ? 255 : 0;
+        }
+        data[off + 3] = 255;
+      }
+    }
+    occData = data;
+    var tex = new THREE.DataTexture(data, OCC_N, OCC_N);
+    tex.magFilter = THREE.LinearFilter;
+    tex.minFilter = THREE.LinearFilter;
+    tex.needsUpdate = true;
+    lensUniforms.uOcc.value = tex;
+    for (var k = 0; k < 3; k++) {
+      var mm = masts[k];
+      if (mm) lensUniforms['uM' + k].value.set(mm.x, mm.z, mastRange(mm));
+    }
+  }
+  if (!REDUCED) setTimeout(buildOcclusion, 600);
+
+  function dbmAt(x, z) {
+    if (!occData) return -110;
+    var ix = Math.max(0, Math.min(OCC_N - 1, ((x - AREA.x0) / (AREA.x1 - AREA.x0) * OCC_N) | 0));
+    var iy = Math.max(0, Math.min(OCC_N - 1, ((z - AREA.z0) / (AREA.z1 - AREA.z0) * OCC_N) | 0));
+    var off = (iy * OCC_N + ix) * 4;
+    var s = 0;
+    for (var i = 0; i < 3 && i < masts.length; i++) {
+      var m = masts[i];
+      var d = Math.hypot(x - m.x, z - m.z);
+      var base = Math.pow(Math.max(0, 1 - d / mastRange(m)), 1.55);
+      s = Math.max(s, base * (0.18 + 0.82 * occData[off + i] / 255));
+    }
+    return Math.round(-110 + 70 * s);
+  }
+
+  /* ---------- interaction: parallax, hover glow, clicks, lens ---------- */
 
   var mouse = { x: 0, y: 0 };
   var ray = new THREE.Raycaster();
   var ndc = new THREE.Vector2();
   var hovered = null;
+  var groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+  var groundHit = new THREE.Vector3();
+  var press = { down: false, x: 0, y: 0, at: 0 };
+  var lens = { on: false, amt: 0 };
+  var hudStatus = document.getElementById('hud-status');
 
   function toNdc(e) {
     var r = mount.getBoundingClientRect();
@@ -578,9 +728,21 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.m
     mouse.x = ndc.x; mouse.y = ndc.y;
   }
 
+  function updateLensPos() {
+    ray.setFromCamera(ndc, camera);
+    if (ray.ray.intersectPlane(groundPlane, groundHit)) {
+      lensUniforms.uLens.value.set(groundHit.x, groundHit.z);
+    }
+  }
+
   mount.addEventListener('pointermove', function (e) {
     toNdc(e);
     if (REDUCED) return;
+    if (press.down && e.pointerType === 'mouse' && !lens.on) {
+      var moved = Math.hypot(e.clientX - press.x, e.clientY - press.y);
+      if (moved > 6 || performance.now() - press.at > 220) lens.on = true;
+    }
+    if (lens.on) { updateLensPos(); return; }
     ray.setFromCamera(ndc, camera);
     var hit = ray.intersectObjects(buildings.concat(mastTips), false)[0];
     var obj = hit ? hit.object : null;
@@ -601,12 +763,24 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.m
 
   mount.addEventListener('pointerdown', function (e) {
     toNdc(e);
+    press.down = true; press.x = e.clientX; press.y = e.clientY;
+    press.at = performance.now();
+    if (!REDUCED && e.pointerType === 'mouse') updateLensPos();
+  });
+
+  window.addEventListener('pointerup', function (e) {
+    var wasLens = lens.on;
+    lens.on = false;
+    if (!press.down) return;
+    press.down = false;
+    if (wasLens) return;                              // a sweep, not a click
+    if (performance.now() - press.at > 400) return;   // a long hold, not a click
+    toNdc(e);
     ray.setFromCamera(ndc, camera);
     var hit = ray.intersectObjects(buildings.concat(mastTips), false)[0];
     if (!hit) return;
     var obj = hit.object;
     if (obj.userData.isMast) {
-      // beam burst + wide coverage ring
       spawnRing(obj.position.x, obj.position.y - 6.5, obj.position.z, true);
       for (var i = 0; i < 3; i++) spawnBeam(obj.position, randomTargetGetter());
     } else {
@@ -614,6 +788,8 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.m
       for (var j = 0; j < 3; j++) spawnPacket();
     }
   });
+
+  mount.addEventListener('pointerleave', function () { lens.on = false; });
 
   /* ---------- loop ---------- */
 
@@ -688,6 +864,21 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.m
     updateDrone(dt, elapsed);
     updateBeams(dt);
     if (ledMat) ledMat.opacity = 0.35 + 0.65 * Math.abs(Math.sin(elapsed * 3));
+
+    // RF lens fade + live dBm readout
+    var lensTarget = (lens.on && occData) ? 1 : 0;
+    lens.amt += (lensTarget - lens.amt) * 0.14;
+    if (lens.amt > 0.01) {
+      lensPlane.visible = true;
+      lensUniforms.uAmt.value = lens.amt;
+      if (lens.on && hudStatus) {
+        hudStatus.textContent = 'RF LENS: ' +
+          dbmAt(lensUniforms.uLens.value.x, lensUniforms.uLens.value.y) + ' dBm';
+      }
+    } else if (lensPlane.visible) {
+      lensPlane.visible = false;
+      if (hudStatus) hudStatus.textContent = 'NETWORK: SIMULATED';
+    }
 
     renderer.render(scene, camera);
   }
