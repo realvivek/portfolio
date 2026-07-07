@@ -1,64 +1,45 @@
 # CLAUDE.md — portfolio
 
-> One-line description: Vivek Yalamanchili's portfolio / informal resume — a landing
-> page that indexes every deployed project with live links.
+> Personal portfolio site for Vivek Yalamanchili — a single-page landing site
+> indexing live projects.
 
-## Tech Stack
-- Static HTML/CSS/JS, no build step, no dependencies. Google Fonts (Archivo, IBM Plex Mono).
-- Hosting: Render Static Site (publish path `.`), auto-deploys from `main`.
+## Stack
+- Static HTML/CSS/JS, no build step, no dependencies.
+- Fonts: Google Fonts (Instrument Serif, Inter, IBM Plex Mono).
+- Hosting: Render static site. Pushes to `main` deploy automatically.
+- Live at: https://portfolio-1jet.onrender.com
 
 ## Commands
-- Install: none (no dependencies)
-- Run locally: open `index.html`, or `npx serve .`
-- Test: none — verification is visual (see Workflow)
-- Lint/syntax: `node --check assets/app.js`
-- Build: none (static site)
+- Run locally: `npx serve .` (or open `index.html` directly)
+- Syntax check: `node --check assets/app.js`
+- No build, no tests — verification is visual.
 
-## Workflow
-- **Solo project.** Single developer (realvivek). No reviewers.
-- **Push directly to `main`.** No pull request required.
-- Keep `main` deployable at all times — every push to `main` auto-deploys to Render.
-- **YOU MUST verify before pushing:** `node --check assets/app.js` passes, and the page
-  renders correctly at desktop and 375px-wide viewports. Do not push on a red check.
+## Conventions
+- Solo project. Commit directly to `main` using Conventional Commits
+  (`type(scope): summary`, e.g. `feat(systems): add project card`).
+- No co-author trailers, tool attributions, or session links in commit
+  messages or PRs.
+- Verify before pushing: the syntax check passes and the page renders
+  correctly at desktop and 375px-wide viewports.
+- Never commit secrets or `.env` files. Environment config belongs in the
+  Render dashboard.
 
-## Commit Messages
-- Use **Conventional Commits**: `type(scope): summary`
-- Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `build`, `ci`
-- Example: `feat(systems): add project card for new deployment`
-- **IMPORTANT: Never mention Claude, AI, or assistant tooling** in commit messages,
-  co-author trailers, code comments, PRs, or docs. No session links. Ever.
+## Structure
+- `index.html` — the whole page, organized as full-screen chapter sections
+- `assets/style.css` — all styles
+- `assets/app.js` — all data and behavior
 
-## Secrets — Never Commit
-- **IMPORTANT: Never commit API keys, tokens, or credentials.**
-- **Never commit `.env` files** (any `.env.*`). `.env` MUST be in `.gitignore`.
-- Set secrets as environment variables in the Render dashboard, never in code.
-- If a secret is ever committed, treat it as compromised and rotate it immediately.
+## Editing recipes
+- **Add a project card**: append one object to the `PROJECTS` array in
+  `assets/app.js` (`index`, `name`, `desc`, `tags`, `url`, `source`).
+- **Edit the interactive city**: node copy lives in the `CITY` object in
+  `assets/app.js`; node positions are in the SVG in `index.html`.
+- **Enable the contact link**: set `CONFIG.linkedin` in `assets/app.js`.
 
-## Deployment (Render)
-- One repo = one Render service. Push to `main` → Render auto-deploys (no manual step).
-- After a deploy, confirm status via the Render API before calling it live.
-
-## Adding a Project
-- Append one object to the `PROJECTS` array in `assets/app.js`
-  (`id`, `name`, `desc`, `tags`, `url`, `source`, `status`). Nothing else to touch.
-- A project isn't "done" until it's live on Render and its card is on this page.
-
-## Positioning (content decisions)
-- Owner: Vivek Yalamanchili — Principal Engineer, private 5G / cellular & edge AI;
-  expert in smart city infrastructure. The site is a portfolio of passion projects.
-- NEVER use the words "shipped" or "deployed" in page copy (owner's rule).
-- Tone: senior but informal; technical credibility over marketing polish.
-- Design language (REV B, current): editorial data-storytelling, after Zajno's
-  "AI Progress" study — paper (#E8E8E4) and slate (#151D27) full-screen chapters with
-  film grain, lowercase Instrument Serif titles over letterspaced mono eyebrows, boxed
-  mono chip labels and pill buttons, corner bracket annotations, one centered
-  visualization per chapter, enormous whitespace. Desaturated only — no hot accents,
-  no gradients-on-dark, no glassmorphism. Keep new elements in this language.
-- History: REV A (engineering datasheet) and REV C (Wealthsimple warm editorial with
-  stock photos) were both rejected by the owner; REV B is the approved baseline.
-  Iterate on REV B — do not resurrect A or C without being asked.
-- If stock imagery is ever reintroduced: visually verify every image before use, give
-  every `img` a real `alt`, and set a background fallback color in case the CDN fails.
-
-## Live URL
-- https://portfolio-1jet.onrender.com (Render static site srv-d95fsdhoagis738qu120)
+## Copy & design notes
+- Titles: lowercase, serif. Labels/eyebrows: mono, uppercase, letterspaced.
+- Palette: paper (#E8E8E4) and slate (#151D27) only — desaturated, no hot
+  accent colors, no gradients-on-dark.
+- Keep page copy free of the words "shipped" and "deployed".
+- Content must remain readable if JavaScript fails: keep the reveal-animation
+  failsafe and `noscript` fallbacks intact.

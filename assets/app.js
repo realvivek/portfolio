@@ -32,7 +32,7 @@ var PROJECTS = [
           '3,143 US counties. Every county is scored for opportunity, so the map ' +
           'answers one question: where should the next network get built?',
     tags: 'BEAD · CBRS · GIS · FUNDING',
-    url: 'https://realvivek.github.io/spectral-nexus/public/index.html',
+    url: 'https://spectral-nexus.onrender.com',
     source: 'https://github.com/realvivek/spectral-nexus'
   },
   {
