@@ -27,13 +27,18 @@
 ## Structure
 - `index.html` — the whole page, organized as full-screen chapter sections
 - `assets/style.css` — all styles
-- `assets/app.js` — all data and behavior
+- `assets/app.js` — data and page behavior (classic script)
+- `assets/city3d.js` — the hero's 3D cityscape (ES module; three.js from the
+  jsdelivr CDN). Strictly an enhancement: on any failure it sets `html.no3d`
+  and the hero falls back to a static ground. A watchdog in `app.js` applies
+  the fallback if the module never starts. Keep this contract.
 
 ## Editing recipes
 - **Add a project card**: append one object to the `PROJECTS` array in
   `assets/app.js` (`index`, `name`, `desc`, `tags`, `url`, `source`).
-- **Edit the interactive city**: node copy lives in the `CITY` object in
-  `assets/app.js`; node positions are in the SVG in `index.html`.
+- **Tune the 3D hero**: camera, building grid, packets, and the (keyless)
+  live-feed hookup all live in `assets/city3d.js`. The HUD must label the
+  packet stream honestly — LIVE only after a real feed message arrives.
 - **Enable the contact link**: set `CONFIG.linkedin` in `assets/app.js`.
 
 ## Copy & design notes

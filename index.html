@@ -8,7 +8,7 @@
   <meta property="og:title" content="Vivek Yalamanchili — Principal Engineer">
   <meta property="og:description" content="Private 5G · Edge AI · Smart City Infrastructure. A living index of projects.">
   <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23E8E8E4'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23141A20' stroke-width='1.5' stroke-dasharray='3 2'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23141A20'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23151D27'/%3E%3Crect x='7' y='14' width='6' height='11' fill='none' stroke='%23CBD5DF' stroke-width='1.5'/%3E%3Crect x='14' y='8' width='6' height='17' fill='none' stroke='%23CBD5DF' stroke-width='1.5'/%3E%3Crect x='21' y='17' width='6' height='8' fill='none' stroke='%23CBD5DF' stroke-width='1.5'/%3E%3Ccircle cx='17' cy='5' r='1.5' fill='%237288A0'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -22,167 +22,53 @@
   <span class="topbar-id">✦&nbsp; VY — PORTFOLIO</span>
   <nav class="topbar-nav" aria-label="Chapters">
     <a href="#profile">PROFILE</a>
-    <a href="#city">CITY</a>
     <a href="#systems">SYSTEMS</a>
     <a href="#contact">CONTACT</a>
   </nav>
-  <span class="topbar-rev">( REV B )</span>
+  <span class="topbar-rev">( REV C )</span>
 </header>
 
 <main>
 
-  <!-- ═══════════ CHAPTER 01 — PROFILE ═══════════ -->
-  <section id="profile" class="chapter chapter-light">
+  <!-- ═══════════ CHAPTER 01 — PROFILE (3D city hero) ═══════════ -->
+  <section id="profile" class="chapter chapter-dark chapter-hero">
+    <div id="city3d" aria-hidden="true"></div>
+    <div class="hero-scrim" aria-hidden="true"></div>
+
     <div class="note note-tl reveal">
       <span class="note-title">( principal engineer )</span>
       <span class="note-sub">radio, compute &amp; civic data</span>
     </div>
     <div class="note note-tr reveal">
-      <span class="note-title">( 2026 )</span>
-      <span class="note-sub">a living document</span>
+      <span class="note-title">( the skyline is live )</span>
+      <span class="note-sub" id="feed-note">synthetic telemetry — uplink connecting</span>
     </div>
 
-    <div class="chapter-core">
+    <div class="chapter-core hero-core">
       <p class="eyebrow reveal">PRIVATE 5G · EDGE AI · SMART CITY INFRASTRUCTURE</p>
       <h1 class="title reveal">vivek yalamanchili</h1>
-
-      <div class="constellation reveal" id="constellation">
-        <div class="halo" aria-hidden="true"></div>
-        <svg id="arcs" aria-hidden="true"></svg>
-        <span class="node node-root" data-node style="--x:50%; --y:10%">VY</span>
-        <span class="node" data-node style="--x:12%; --y:58%">PRIVATE 5G</span>
-        <span class="node" data-node style="--x:36%; --y:80%">EDGE AI</span>
-        <span class="node" data-node style="--x:64%; --y:74%">SMART CITIES</span>
-        <span class="node" data-node style="--x:88%; --y:52%">BLOCKCHAIN DATA</span>
-      </div>
-
+      <p class="lede reveal">
+        I build the radio, compute, and data layers that make cities intelligent.
+        The city below is running now — drag across it, click a rooftop.
+      </p>
+      <p class="domains reveal">
+        <span class="pill">PRIVATE 5G</span>
+        <span class="pill">EDGE AI</span>
+        <span class="pill">SMART CITIES</span>
+        <span class="pill">BLOCKCHAIN DATA</span>
+      </p>
       <p class="scroll-hint reveal" aria-hidden="true">✦&nbsp; SCROLL</p>
     </div>
-  </section>
 
-  <!-- ═══════════ CHAPTER 02 — THE CITY ═══════════ -->
-  <section id="city" class="chapter chapter-dark">
-    <div class="note note-tl reveal">
-      <span class="note-title">( field model )</span>
-      <span class="note-sub">every pulse is clickable</span>
-    </div>
-    <div class="note note-tr reveal">
-      <span class="note-title">( vendor-neutral )</span>
-      <span class="note-sub">architecture, white-labeled</span>
-    </div>
-
-    <div class="chapter-core">
-      <p class="eyebrow reveal">INTERACTIVE — ONE CITY BLOCK ON PRIVATE 5G</p>
-      <h2 class="title reveal">a city that talks</h2>
-      <p class="lede reveal">
-        One block, fully instrumented. Tap any glowing node to see what it does
-        and how a private cellular network carries it — from rooftop radios to
-        drones on patrol.
-      </p>
-
-      <div class="city-wrap reveal">
-        <div class="city-scroll">
-          <svg id="cityscape" viewBox="0 0 1000 430" role="group" aria-label="Interactive schematic of a smart city block">
-            <defs>
-              <pattern id="win" width="14" height="16" patternUnits="userSpaceOnUse">
-                <rect x="3" y="4" width="5" height="6" fill="rgba(203,213,223,0.13)"/>
-              </pattern>
-            </defs>
-
-            <!-- coverage arcs -->
-            <circle class="cov cov-big" cx="95" cy="112" r="185"/>
-            <circle class="cov" cx="430" cy="226" r="90"/>
-
-            <!-- backhaul + fiber links -->
-            <path class="link" d="M95,112 Q300,40 700,84"/>
-            <path class="link" d="M430,232 L430,368 L215,368 L215,292"/>
-            <path class="link" d="M215,278 Q560,10 893,44"/>
-            <path class="link" d="M500,384 L430,368"/>
-
-            <!-- ground + underground -->
-            <line class="ground" x1="0" y1="360" x2="1000" y2="360"/>
-            <line class="fiber" x1="60" y1="384" x2="940" y2="384"/>
-
-            <!-- buildings -->
-            <g class="bld">
-              <rect x="40"  y="120" width="110" height="240"/>
-              <rect x="40"  y="120" width="110" height="240" fill="url(#win)"/>
-              <rect x="170" y="205" width="90"  height="155"/>
-              <rect x="170" y="205" width="90"  height="155" fill="url(#win)"/>
-              <rect x="280" y="262" width="80"  height="98"/>
-              <rect x="280" y="262" width="80"  height="98" fill="url(#win)"/>
-              <rect x="645" y="170" width="115" height="190"/>
-              <rect x="645" y="170" width="115" height="190" fill="url(#win)"/>
-              <rect x="785" y="225" width="175" height="135"/>
-              <rect x="785" y="225" width="175" height="135" fill="url(#win)"/>
-            </g>
-
-            <!-- smart pole -->
-            <g class="pole">
-              <line x1="430" y1="360" x2="430" y2="228"/>
-              <line x1="430" y1="238" x2="452" y2="238"/>
-              <circle cx="455" cy="238" r="4" class="lamp"/>
-            </g>
-
-            <!-- traffic signal -->
-            <g class="pole">
-              <line x1="600" y1="360" x2="600" y2="300"/>
-              <rect x="594" y="286" width="12" height="16" class="sig"/>
-            </g>
-
-            <!-- kiosk -->
-            <rect class="kioskbox" x="548" y="330" width="20" height="30"/>
-
-            <!-- drone dock pad -->
-            <line class="pad" x1="668" y1="166" x2="700" y2="166"/>
-
-            <!-- animated drone -->
-            <g id="drone-body" class="drone">
-              <line x1="-11" y1="0" x2="11" y2="0"/>
-              <rect x="-4" y="-2.5" width="8" height="5" rx="1.5"/>
-              <circle cx="-11" cy="0" r="3.6"/>
-              <circle cx="11" cy="0" r="3.6"/>
-              <circle class="drone-light" cx="0" cy="4.5" r="1.6"/>
-            </g>
-
-            <!-- animated sidewalk robot -->
-            <g id="agv-body" class="agv">
-              <rect x="-11" y="-14" width="22" height="12" rx="3"/>
-              <circle cx="-6" cy="0" r="2.6"/>
-              <circle cx="6" cy="0" r="2.6"/>
-            </g>
-
-            <!-- ══ clickable nodes (visual dot + generous hit target) ══ -->
-            <g class="cnode" data-id="macro"  transform="translate(95,112)"><circle class="dot"/><circle class="ring"/><circle class="hit"/></g>
-            <g class="cnode" data-id="pole"   transform="translate(430,226)"><circle class="dot"/><circle class="ring"/><circle class="hit"/></g>
-            <g class="cnode" data-id="edge"   transform="translate(215,285)"><circle class="dot"/><circle class="ring"/><circle class="hit"/></g>
-            <g class="cnode" data-id="cloud"  transform="translate(893,44)"><circle class="dot"/><circle class="ring"/><circle class="hit"/><text class="cloud-tag" x="0" y="-16">ORCHESTRATOR</text></g>
-            <g class="cnode" data-id="camera" transform="translate(412,250)"><circle class="dot"/><circle class="ring"/><circle class="hit"/></g>
-            <g class="cnode" data-id="drone"  transform="translate(700,84)"><circle class="dot"/><circle class="ring"/><circle class="hit"/></g>
-            <g class="cnode" data-id="traffic" transform="translate(600,294)"><circle class="dot"/><circle class="ring"/><circle class="hit"/></g>
-            <g class="cnode" data-id="air"    transform="translate(430,268)"><circle class="dot"/><circle class="ring"/><circle class="hit"/></g>
-            <g class="cnode" data-id="agv"    transform="translate(500,346)"><circle class="dot"/><circle class="ring"/><circle class="hit"/></g>
-            <g class="cnode" data-id="kiosk"  transform="translate(558,330)"><circle class="dot"/><circle class="ring"/><circle class="hit"/></g>
-            <g class="cnode" data-id="vault"  transform="translate(500,384)"><circle class="dot"/><circle class="ring"/><circle class="hit"/></g>
-          </svg>
-        </div>
-
-        <aside class="city-card" id="city-card" aria-live="polite">
-          <!-- populated by assets/app.js; graceful fallback below -->
-          <p class="city-cat" id="city-cat">RADIO ACCESS</p>
-          <h3 class="city-name" id="city-name">rooftop macro radio</h3>
-          <p class="city-desc" id="city-desc">
-            A carrier-grade outdoor radio on shared CBRS spectrum (3550–3700 MHz,
-            band n48), authorized by a spectrum access system. One unit lights up
-            the whole block.
-          </p>
-          <p class="city-path" id="city-path">CBRS n48 → EDGE CORE → CITY OPS</p>
-        </aside>
-      </div>
+    <div class="hud" aria-live="off">
+      <span class="hud-dot" aria-hidden="true"></span>
+      <span id="hud-status">UPLINK: SYNTHETIC</span>
+      <span class="hud-sep">·</span>
+      <span id="hud-count">0</span>&nbsp;PACKETS
     </div>
   </section>
 
-  <!-- ═══════════ CHAPTER 03 — SYSTEMS ═══════════ -->
+  <!-- ═══════════ CHAPTER 02 — SYSTEMS ═══════════ -->
   <section id="systems" class="chapter chapter-light">
     <div class="note note-tr reveal">
       <span class="note-title">( selection rule )</span>
@@ -201,12 +87,18 @@
             CBRS zones and RDOF defaults across 3,143 US counties.</p>
             <p><a href="https://spectral-nexus.onrender.com">→ LAUNCH</a></p>
           </article>
+          <article class="rank-card rank-featured">
+            <h3>tx highway</h3>
+            <p>Live Bitcoin and Ethereum traffic — every vehicle is a real mempool
+            transaction.</p>
+            <p><a href="https://txhighway.onrender.com">→ LAUNCH</a></p>
+          </article>
         </noscript>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════ CHAPTER 04 — CONTACT ═══════════ -->
+  <!-- ═══════════ CHAPTER 03 — CONTACT ═══════════ -->
   <section id="contact" class="chapter chapter-dark">
     <div class="note note-tl reveal">
       <span class="note-title">( response time )</span>
@@ -235,5 +127,6 @@
 </main>
 
 <script src="assets/app.js"></script>
+<script type="module" src="assets/city3d.js"></script>
 </body>
 </html>

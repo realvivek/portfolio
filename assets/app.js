@@ -1,16 +1,14 @@
 /* ==========================================================================
-   VY-PF-001 REV B — Portfolio behavior
-   Sections: config → project cards render → constellation arcs → count-up
-   stats → reveal-on-scroll (with failsafe). No dependencies; the page must
-   stay fully readable if this file never runs.
+   REV C — Portfolio behavior
+   Sections: config → project cards render → 3D-hero fallback watchdog →
+   reveal-on-scroll (with failsafe). No dependencies; the page must stay
+   fully readable if this file never runs. The 3D hero itself lives in
+   assets/city3d.js and is a strictly optional enhancement.
    ========================================================================== */
 
 'use strict';
 
 document.documentElement.classList.add('js');
-
-var REDUCED = window.matchMedia &&
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- Config ---------- */
 
@@ -27,7 +25,7 @@ var PROJECTS = [
   {
     index: '/ 01 /',
     name: 'spectral nexus',
-    desc: 'An interactive atlas of America\u2019s broadband story \u2014 coverage gaps, ' +
+    desc: 'An interactive atlas of America’s broadband story — coverage gaps, ' +
           'BEAD funding flows, CBRS spectrum zones and RDOF defaults across all ' +
           '3,143 US counties. Every county is scored for opportunity, so the map ' +
           'answers one question: where should the next network get built?',
@@ -68,16 +66,14 @@ var PROJECTS = [
     );
   }).join('');
 
-  // Two dashed ghost slots so the ranking silhouette reads like a chart.
-  for (var g = 0; g < 1; g++) {
-    var n = PROJECTS.length + g + 1;
-    html += (
-      '<div class="rank-card rank-ghost" aria-hidden="true">' +
-        '<span class="rank-index">/ 0' + n + ' /</span>' +
-        '<span class="rank-ghost-label">IN FABRICATION</span>' +
-      '</div>'
-    );
-  }
+  // One dashed ghost slot so the row reads as a work-in-progress ranking.
+  var n = PROJECTS.length + 1;
+  html += (
+    '<div class="rank-card rank-ghost" aria-hidden="true">' +
+      '<span class="rank-index">/ 0' + n + ' /</span>' +
+      '<span class="rank-ghost-label">IN FABRICATION</span>' +
+    '</div>'
+  );
 
   wrap.innerHTML = html;
 })();
@@ -105,184 +101,17 @@ var PROJECTS = [
   el.textContent = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
 })();
 
-/* ---------- Constellation arcs ----------
-   Dashed quadratic curves from the root node to each domain node, endpoints
-   measured from the real chip positions so they stay attached on resize. */
+/* ---------- 3D-hero fallback watchdog ----------
+   city3d.js marks <html> with `has3d` once its scene is up. If that never
+   happens (CDN blocked, WebGL unavailable, script error), switch the hero
+   to its static fallback so nothing looks broken. city3d.js removes `no3d`
+   if it manages to start late. */
 
-(function constellation() {
-  var box = document.getElementById('constellation');
-  var svg = document.getElementById('arcs');
-  if (!box || !svg) return;
-
-  var nodes = box.querySelectorAll('[data-node]');
-  if (nodes.length < 2) return;
-  var root = box.querySelector('.node-root') || nodes[0];
-
-  function center(el) {
-    var b = box.getBoundingClientRect();
-    var r = el.getBoundingClientRect();
-    return { x: r.left + r.width / 2 - b.left, y: r.top + r.height / 2 - b.top };
+setTimeout(function () {
+  if (!document.documentElement.classList.contains('has3d')) {
+    document.documentElement.classList.add('no3d');
   }
-
-  function draw() {
-    var b = box.getBoundingClientRect();
-    svg.setAttribute('viewBox', '0 0 ' + b.width + ' ' + b.height);
-    var rc = center(root);
-    var d = '';
-    nodes.forEach(function (n) {
-      if (n === root) return;
-      var c = center(n);
-      // control point: midpoint pushed outward for a gentle orbit-like bow
-      var mx = (rc.x + c.x) / 2 + (c.x - rc.x) * 0.12;
-      var my = (rc.y + c.y) / 2 + Math.abs(c.x - rc.x) * 0.22;
-      d += 'M' + rc.x + ',' + rc.y + ' Q' + mx + ',' + my + ' ' + c.x + ',' + c.y + ' ';
-    });
-    svg.innerHTML = '<path d="' + d.trim() + '"/>';
-  }
-
-  draw();
-  window.addEventListener('resize', draw);
-  // fonts shift chip sizes after load; redraw once settled
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
-  setTimeout(draw, 1200);
-})();
-
-/* ---------- Chapter 02: interactive city ----------
-   Architecture is real but white-labeled (radios on shared CBRS spectrum,
-   an on-prem edge core, a cloud orchestrator with eSIM identity and
-   per-app QoS slicing). Use cases span today's (edge vision cameras,
-   adaptive intersections) through emerging (drone-as-first-responder,
-   digital-twin capture, sidewalk robot teleoperation). */
-
-var CITY = {
-  macro: {
-    cat: 'RADIO ACCESS',
-    name: 'rooftop macro radio',
-    desc: 'A carrier-grade outdoor radio on shared CBRS spectrum (3550–3700 MHz, ' +
-          'band n48), authorized by a spectrum access system. One unit lights up ' +
-          'the whole block — this is the cell tower, shrunk to a shoebox the city owns.',
-    path: 'CBRS n48 → EDGE CORE → CITY OPS'
-  },
-  pole: {
-    cat: 'RADIO ACCESS',
-    name: 'street-level radio',
-    desc: 'A compact radio on a smart pole fills the street canyon the rooftop ' +
-          'can’t reach, and serves everything below it — cameras, sensors, robots, ' +
-          'kiosks — on the same private network.',
-    path: 'SMART POLE → FIBER → EDGE CORE'
-  },
-  edge: {
-    cat: 'COMPUTE',
-    name: 'edge core',
-    desc: 'The network’s brain, in a basement rack: a converged packet core plus ' +
-          'GPU inference, on-premises. Traffic never leaves the block, round trips ' +
-          'stay in single-digit milliseconds, and the vision AI runs next to the data.',
-    path: 'RADIOS → EDGE CORE (UPF + AI) → ONLY EVENTS LEAVE'
-  },
-  cloud: {
-    cat: 'OPERATIONS',
-    name: 'cloud orchestrator',
-    desc: 'The one piece that lives off-block: zero-touch provisioning for every ' +
-          'radio, eSIM identity for every device, and per-app QoS slicing — a ' +
-          'guaranteed lane for the drone feed even when the network is busy.',
-    path: 'ORCHESTRATOR → POLICY + eSIM + QoS SLICES → FLEET'
-  },
-  camera: {
-    cat: 'USE CASE — TODAY',
-    name: 'edge vision camera',
-    desc: '4K video parsed by AI at the edge core: counts, flows, stalled vehicles, ' +
-          'incidents. Raw footage stays on the block; only events and alerts travel. ' +
-          'Guaranteed uplink means it never fights the public network for bandwidth.',
-    path: '4K SENSOR → eSIM → POLE RADIO → EDGE AI → ALERT'
-  },
-  drone: {
-    cat: 'USE CASE — EMERGING',
-    name: 'security drone on patrol',
-    desc: 'Drone-as-first-responder: on an alert it launches from the rooftop dock, ' +
-          'streams live 4K over a guaranteed slice, and arrives minutes before anyone ' +
-          'else. Next: beyond-line-of-sight patrols and photogrammetry passes that ' +
-          'keep the city’s digital twin fresh.',
-    path: 'DOCK → MACRO RADIO → GUARANTEED SLICE → OPS + TWIN'
-  },
-  traffic: {
-    cat: 'USE CASE — TODAY',
-    name: 'adaptive intersection',
-    desc: 'Radar and vision watch the junction; an AI model at the edge retimes ' +
-          'signals in real time and talks vehicle-to-infrastructure — transit and ' +
-          'emergency vehicles get green lights first.',
-    path: 'RADAR + VISION → EDGE AI → SIGNAL TIMING + V2X'
-  },
-  air: {
-    cat: 'USE CASE — TODAY',
-    name: 'environmental sensor',
-    desc: 'Air quality, noise, and microclimate telemetry riding the same network ' +
-          'as everything else — low-power devices with years of battery, no ' +
-          'separate IoT network to build or babysit.',
-    path: 'SENSOR → POLE RADIO → TIME-SERIES DB → OPEN DATA'
-  },
-  agv: {
-    cat: 'USE CASE — EMERGING',
-    name: 'sidewalk robot',
-    desc: 'Delivery and inspection robots roam with autonomy on board — and a ' +
-          'guaranteed low-latency slice for remote teleoperation the moment ' +
-          'autonomy asks a human for help.',
-    path: 'ROBOT → POLE RADIO → TELEOP SLICE (<20 ms) → PILOT'
-  },
-  kiosk: {
-    cat: 'USE CASE — TODAY',
-    name: 'civic kiosk',
-    desc: 'Wayfinding, service alerts, and an emergency callbox — wirelessly ' +
-          'backhauled, so it can move wherever the city needs it next weekend ' +
-          'without trenching a single foot of conduit.',
-    path: 'KIOSK → POLE RADIO → EDGE CORE → CITY SERVICES'
-  },
-  vault: {
-    cat: 'USE CASE — TODAY',
-    name: 'utility vault sensor',
-    desc: 'Leak and level monitoring under the street, where Wi-Fi can’t reach — ' +
-          'licensed-band signal penetrates below grade, and the fiber ring it ' +
-          'protects runs right alongside.',
-    path: 'BELOW-GRADE SENSOR → MACRO RADIO → MAINTENANCE QUEUE'
-  }
-};
-
-(function cityInteractive() {
-  var svg = document.getElementById('cityscape');
-  var elCat = document.getElementById('city-cat');
-  var elName = document.getElementById('city-name');
-  var elDesc = document.getElementById('city-desc');
-  var elPath = document.getElementById('city-path');
-  if (!svg || !elName) return;
-
-  var nodes = svg.querySelectorAll('.cnode');
-
-  function select(id) {
-    var d = CITY[id];
-    if (!d) return;
-    nodes.forEach(function (n) {
-      var on = n.getAttribute('data-id') === id;
-      n.classList.toggle('on', on);
-      n.setAttribute('aria-pressed', on ? 'true' : 'false');
-    });
-    elCat.textContent = d.cat;
-    elName.textContent = d.name;
-    elDesc.textContent = d.desc;
-    elPath.textContent = d.path;
-  }
-
-  nodes.forEach(function (n) {
-    var id = n.getAttribute('data-id');
-    n.setAttribute('role', 'button');
-    n.setAttribute('tabindex', '0');
-    n.setAttribute('aria-label', (CITY[id] && CITY[id].name) || id);
-    n.addEventListener('click', function () { select(id); });
-    n.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(id); }
-    });
-  });
-
-  select('macro');
-})();
+}, 4000);
 
 /* ---------- Reveal on scroll ---------- */
 
