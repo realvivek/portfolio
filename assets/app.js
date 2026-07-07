@@ -42,6 +42,17 @@ var PROJECTS = [
     tags: 'BITCOIN · ETHEREUM · WEBSOCKETS · CANVAS',
     url: 'https://txhighway.onrender.com',
     source: 'https://github.com/realvivek/txhighway'
+  },
+  {
+    index: '/ 03 /',
+    name: 'rf concepts in smart cities',
+    desc: 'Six interactive 3D lessons in urban radio engineering — steer a 5G ' +
+          'beam through a procedural downtown, densify a city with small ' +
+          'cells, and place AI workloads at the edge. Real propagation math, ' +
+          'each scene stating plainly what it teaches.',
+    tags: '5G · BEAMFORMING · EDGE AI · THREE.JS',
+    url: 'https://smartcity-concept-gallery.onrender.com',
+    source: 'https://github.com/realvivek/SmartcityConceptGallery'
   }
 ];
 
