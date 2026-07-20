@@ -53,6 +53,18 @@ var PROJECTS = [
     tags: '5G · BEAMFORMING · EDGE AI · THREE.JS',
     url: 'https://smartcity-concept-gallery.onrender.com',
     source: 'https://github.com/realvivek/SmartcityConceptGallery'
+  },
+  {
+    index: '/ 04 /',
+    name: 'decibel',
+    desc: 'An interactive dB-math playground set on a hand-drawn small-cell ' +
+          'street. Turn a dial until factors of ten feel natural, steer a ' +
+          'phased array driven by the real array factor, and walk a link ' +
+          'budget down the block — free-space loss, rain fade and the noise ' +
+          'floor included, every model stated honestly in the footer.',
+    tags: 'RF · ANTENNAS · LINK BUDGET · CANVAS + SVG',
+    url: 'https://decibel-34c7.onrender.com',
+    source: 'https://github.com/realvivek/decibel'
   }
 ];
 
