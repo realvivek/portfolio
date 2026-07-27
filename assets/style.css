@@ -271,13 +271,16 @@ html.no3d .chapter-hero .note-tr { display: none; }
 
 .rank {
   display: flex;
-  align-items: flex-end;
+  flex-wrap: wrap;
+  align-items: stretch;
   justify-content: center;
   gap: clamp(12px, 2vw, 22px);
   margin-top: clamp(36px, 6vh, 64px);
 }
 .rank-card {
-  flex: 0 1 300px;
+  flex: 1 1 260px;
+  max-width: 320px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -294,7 +297,7 @@ html.no3d .chapter-hero .note-tr { display: none; }
 }
 .rank-featured:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(20, 26, 32, 0.14); }
 .rank-ghost {
-  min-height: clamp(190px, 28vh, 250px);
+  min-height: clamp(150px, 22vh, 200px);
   border-style: dashed;
   color: var(--ink-40);
   justify-content: center;
@@ -373,7 +376,7 @@ html.js .reveal:nth-child(3) { transition-delay: 0.16s; }
 
 @media (max-width: 900px) {
   .rank { flex-direction: column; align-items: stretch; }
-  .rank-card { flex-basis: auto; min-height: 0; }
+  .rank-card { flex-basis: auto; max-width: none; min-height: 0; }
   .rank-ghost { min-height: 0; padding: 18px; }
 }
 
