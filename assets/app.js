@@ -74,7 +74,7 @@ var PROJECTS = [
           'stream absorbs another. Scroll flies you from the 1984 Bell breakup ' +
           'to today’s three giants; blocked deals snap back in red.',
     tags: 'TELECOM M&A · 1984–2026 · THREE.JS · SCROLL',
-    url: 'https://realvivek.github.io/telecom-consolidation/',
+    url: 'https://telecom-consolidation.onrender.com',
     source: 'https://github.com/realvivek/telecom-consolidation'
   }
 ];
