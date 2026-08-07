@@ -147,6 +147,18 @@ var ARTICLES = [
   }).join('');
 })();
 
+/* ---------- Topbar backdrop past the hero ---------- */
+
+(function topbarSolid() {
+  var bar = document.querySelector('.topbar');
+  if (!bar) return;
+  var onScroll = function () {
+    bar.classList.toggle('topbar-solid', window.scrollY > window.innerHeight * 0.6);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
 /* ---------- Interfaces ---------- */
 
 (function wireInterfaces() {

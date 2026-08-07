@@ -76,6 +76,16 @@ a:focus-visible { outline: 1.5px solid currentColor; outline-offset: 4px; }
   letter-spacing: 0.16em;
   mix-blend-mode: difference;
   color: #E8E8E4;
+  transition: background 0.3s ease;
+}
+/* Past the hero, content scrolls under the bar — give it a real backdrop
+   so the blend trick never fights the chapter titles. JS toggles the class;
+   without JS the bar simply keeps its blend look. */
+.topbar.topbar-solid {
+  mix-blend-mode: normal;
+  background: rgba(21, 29, 39, 0.85);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
 }
 .topbar-nav { display: flex; gap: clamp(10px, 2.4vw, 26px); }
 .topbar-nav a {
