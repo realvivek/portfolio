@@ -345,6 +345,9 @@ html.no3d .chapter-hero .note-tr { display: none; }
 
 /* ---------- Chapter 03: article index ---------- */
 
+/* An index strip, not a full spread: natural height until the list earns more */
+#writing { min-height: 0; align-items: flex-start; }
+
 .chapter-after-dark { border-top: 1px solid var(--line-d); }
 
 .articles {
