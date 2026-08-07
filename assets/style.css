@@ -449,7 +449,6 @@ html.js .reveal:nth-child(3) { transition-delay: 0.16s; }
   .hud { font-size: 0.5rem; padding: 6px 10px; }
   .domains .pill { font-size: 0.52rem; padding: 6px 12px; }
   .colophon { flex-direction: column; gap: 4px; text-align: center; }
-  .colophon-mid { order: 2; }
 }
 
 /* ---------- Print ---------- */
