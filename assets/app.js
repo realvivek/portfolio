@@ -15,7 +15,7 @@ document.documentElement.classList.add('js');
 var CONFIG = {
   // Set to the real profile URL. The button stays hidden until this is
   // non-null so the live site never ships a dead anchor.
-  linkedin: null
+  linkedin: 'https://www.linkedin.com/in/vivek-y'
 };
 
 /* ---------- Projects ----------
