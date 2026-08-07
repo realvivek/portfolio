@@ -24,24 +24,26 @@ var CONFIG = {
 var PROJECTS = [
   {
     index: '/ 01 /',
-    name: 'spectral nexus',
-    desc: 'An interactive atlas of America’s broadband story — coverage gaps, ' +
-          'BEAD funding flows, CBRS spectrum zones and RDOF defaults across all ' +
-          '3,143 US counties. Every county is scored for opportunity, so the map ' +
-          'answers one question: where should the next network get built?',
-    tags: 'BEAD · CBRS · GIS · FUNDING',
-    url: 'https://spectral-nexus.onrender.com',
-    source: 'https://github.com/realvivek/spectral-nexus'
+    name: 'the consolidation',
+    desc: 'Forty years of telecom mergers as a river of light — every company ' +
+          'a glowing thread through time, every deal a confluence where one ' +
+          'stream absorbs another. Scroll flies you from the 1984 Bell breakup ' +
+          'to today’s three giants; blocked deals snap back in red.',
+    tags: 'TELECOM M&A · 1984–2026 · THREE.JS · SCROLL',
+    url: 'https://telecom-consolidation.onrender.com',
+    source: 'https://github.com/realvivek/telecom-consolidation'
   },
   {
     index: '/ 02 /',
-    name: 'tx highway',
-    desc: 'Live Bitcoin and Ethereum traffic — every vehicle is a real mempool ' +
-          'transaction streamed over public WebSockets, sized by USD value. ' +
-          'Rewind replays the actual blocks from any past moment.',
-    tags: 'BITCOIN · ETHEREUM · WEBSOCKETS · CANVAS',
-    url: 'https://txhighway.onrender.com',
-    source: 'https://github.com/realvivek/txhighway'
+    name: 'decibel',
+    desc: 'An interactive dB-math playground set on a hand-drawn small-cell ' +
+          'street. Turn a dial until factors of ten feel natural, steer a ' +
+          'phased array driven by the real array factor, and walk a link ' +
+          'budget down the block — free-space loss, rain fade and the noise ' +
+          'floor included, every model stated honestly in the footer.',
+    tags: 'RF · ANTENNAS · LINK BUDGET · CANVAS + SVG',
+    url: 'https://decibel-34c7.onrender.com',
+    source: 'https://github.com/realvivek/decibel'
   },
   {
     index: '/ 03 /',
@@ -56,26 +58,39 @@ var PROJECTS = [
   },
   {
     index: '/ 04 /',
-    name: 'decibel',
-    desc: 'An interactive dB-math playground set on a hand-drawn small-cell ' +
-          'street. Turn a dial until factors of ten feel natural, steer a ' +
-          'phased array driven by the real array factor, and walk a link ' +
-          'budget down the block — free-space loss, rain fade and the noise ' +
-          'floor included, every model stated honestly in the footer.',
-    tags: 'RF · ANTENNAS · LINK BUDGET · CANVAS + SVG',
-    url: 'https://decibel-34c7.onrender.com',
-    source: 'https://github.com/realvivek/decibel'
+    name: 'tx highway',
+    desc: 'Live Bitcoin and Ethereum traffic — every vehicle is a real mempool ' +
+          'transaction streamed over public WebSockets, sized by USD value. ' +
+          'Rewind replays the actual blocks from any past moment.',
+    tags: 'BITCOIN · ETHEREUM · WEBSOCKETS · CANVAS',
+    url: 'https://txhighway.onrender.com',
+    source: 'https://github.com/realvivek/txhighway'
   },
   {
     index: '/ 05 /',
-    name: 'the consolidation',
-    desc: 'Forty years of telecom mergers as a river of light — every company ' +
-          'a glowing thread through time, every deal a confluence where one ' +
-          'stream absorbs another. Scroll flies you from the 1984 Bell breakup ' +
-          'to today’s three giants; blocked deals snap back in red.',
-    tags: 'TELECOM M&A · 1984–2026 · THREE.JS · SCROLL',
-    url: 'https://telecom-consolidation.onrender.com',
-    source: 'https://github.com/realvivek/telecom-consolidation'
+    name: 'spectral nexus',
+    desc: 'An interactive atlas of America’s broadband story — coverage gaps, ' +
+          'BEAD funding flows, CBRS spectrum zones and RDOF defaults across all ' +
+          '3,143 US counties. Every county is scored for opportunity, so the map ' +
+          'answers one question: where should the next network get built?',
+    tags: 'BEAD · CBRS · GIS · FUNDING',
+    url: 'https://spectral-nexus.onrender.com',
+    source: 'https://github.com/realvivek/spectral-nexus'
+  }
+];
+
+/* ---------- Articles ----------
+   To add an article: append an object here. Nothing else to touch. */
+
+var ARTICLES = [
+  {
+    date: 'JUL 2026',
+    venue: 'NTT DATA INSIGHTS',
+    title: 'Private 5G and Cisco ISE: Intelligent infrastructure needs intelligent security',
+    desc: 'As airports, factories and cities become more connected, every device ' +
+          'on the network needs an identity. How private 5G and identity-based ' +
+          'access control keep intelligent infrastructure governed, trusted and secure.',
+    url: 'https://services.global.ntt/en-us/insights/blog/private-5g-and-cisco-ise-intelligent-infrastructure-needs-intelligent-security'
   }
 ];
 
@@ -110,6 +125,26 @@ var PROJECTS = [
   );
 
   wrap.innerHTML = html;
+})();
+
+/* ---------- Render article index ---------- */
+
+(function renderWriting() {
+  var wrap = document.getElementById('writing-list');
+  if (!wrap) return;
+
+  wrap.innerHTML = ARTICLES.map(function (a) {
+    return (
+      '<a class="article-row" href="' + a.url + '" target="_blank" rel="noopener">' +
+        '<span class="article-meta">' +
+          '<span>' + a.date + '</span><span class="article-sep">·</span><span>' + a.venue + '</span>' +
+          '<span class="article-read">READ&nbsp;→</span>' +
+        '</span>' +
+        '<span class="article-title">' + a.title + '</span>' +
+        '<span class="article-desc">' + a.desc + '</span>' +
+      '</a>'
+    );
+  }).join('');
 })();
 
 /* ---------- Interfaces ---------- */
