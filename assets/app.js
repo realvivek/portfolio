@@ -24,6 +24,20 @@ var CONFIG = {
 var PROJECTS = [
   {
     index: '/ 01 /',
+    name: 'anatomy of a flock camera',
+    desc: 'A scroll-driven 3D reference for a Flock Safety license plate ' +
+          'reader: pole and mount options with installer callouts, the Falcon ' +
+          'V2 enclosure exploded into fourteen components with part numbers, ' +
+          'the power and network paths, and one detection traced through ' +
+          'twelve stages from capture to deletion. Every figure and claim ' +
+          'cites a public document, tagged by origin — company, independent, ' +
+          'government, or court.',
+    tags: 'ALPR · WEBGPU / WEBGL · THREE.JS · CITED SOURCES',
+    url: 'https://realvivek.github.io/Flock/',
+    source: 'https://github.com/realvivek/Flock'
+  },
+  {
+    index: '/ 02 /',
     name: 'the consolidation',
     desc: 'Forty years of telecom mergers as a river of light — every company ' +
           'a glowing thread through time, every deal a confluence where one ' +
@@ -34,7 +48,7 @@ var PROJECTS = [
     source: 'https://github.com/realvivek/telecom-consolidation'
   },
   {
-    index: '/ 02 /',
+    index: '/ 03 /',
     name: 'decibel',
     desc: 'An interactive dB-math playground set on a hand-drawn small-cell ' +
           'street. Turn a dial until factors of ten feel natural, steer a ' +
@@ -46,7 +60,7 @@ var PROJECTS = [
     source: 'https://github.com/realvivek/decibel'
   },
   {
-    index: '/ 03 /',
+    index: '/ 04 /',
     name: 'rf concepts in smart cities',
     desc: 'Six interactive 3D lessons in urban radio engineering — steer a 5G ' +
           'beam through a procedural downtown, densify a city with small ' +
@@ -57,7 +71,7 @@ var PROJECTS = [
     source: 'https://github.com/realvivek/SmartcityConceptGallery'
   },
   {
-    index: '/ 04 /',
+    index: '/ 05 /',
     name: 'tx highway',
     desc: 'Live Bitcoin and Ethereum traffic — every vehicle is a real mempool ' +
           'transaction streamed over public WebSockets, sized by USD value. ' +
@@ -67,7 +81,7 @@ var PROJECTS = [
     source: 'https://github.com/realvivek/txhighway'
   },
   {
-    index: '/ 05 /',
+    index: '/ 06 /',
     name: 'spectral nexus',
     desc: 'An interactive atlas of America’s broadband story — coverage gaps, ' +
           'BEAD funding flows, CBRS spectrum zones and RDOF defaults across all ' +

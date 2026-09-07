@@ -132,16 +132,13 @@
   <p class="eyebrow">PROJECT WRITE-UP · AUG 2026</p>
   <h1 class="article-h1">the retirement display</h1>
   <p class="article-standfirst">
-    For my father's retirement ceremony, we wanted a fun way to put his
-    achievements on the table — literally. Something guests could pick up, flip
-    through, and get, whether they'd spent a career in semiconductors or had
-    never heard of a cleanroom. Thirty-four years of surface chemistry and wafer
-    engineering don't explain themselves, so every patent and paper was
-    translated into plain English: each card carries the official document's own
-    drawing plus a one-sentence "what it does" and a "why it matters" band. The
-    result: three postcard decks, an illustrated book, a rebuilt career record —
-    and a pipeline that regenerates all of it from primary sources with one
-    command.
+    For my father's retirement ceremony, we wanted his work on the table in a
+    form guests could actually read — including guests with no semiconductor
+    background. The approach: every patent and paper gets a card carrying the
+    official document's own drawing, a one-sentence plain-English description
+    of what it does, and a short note on why it matters. The result: three
+    postcard decks, an illustrated book, a rebuilt career record, and a
+    pipeline that regenerates all of it from primary sources with one command.
   </p>
   <p class="article-byline">VIVEK YALAMANCHILI · PYTHON · REPORTLAB · PYMUPDF · USPTO + CROSSREF</p>
 
@@ -167,8 +164,8 @@
     company that builds most of the world's wafer saws. His 2010–2012 papers on
     through-silicon vias described the stacking technique that now underpins
     high-bandwidth memory — the part the AI industry is short of — more than a
-    decade early. He published in his final working year, on the chips that
-    haven't been built yet.
+    decade early. His last paper — a 2024 SPIE photomask study with Applied
+    Materials, HOYA, and Photronics — was published in his final working year.
   </p>
 
   <h2>the list was wrong in both directions</h2>
@@ -177,20 +174,35 @@
     was most of the project.
   </p>
   <p>
-    Google Patents' inventor index returns only 25 grants under his full name.
-    Searching the variant "Rao Yalamanchili" returns more — mixed with
-    fin-stabilized ammunition and percussion primers from a US Army ordnance
-    researcher who shares the surname. At least five unrelated people publish
-    under "Yalamanchili," including one with the same full name in an adjacent
-    industry. That is how a family arrives at "about fifty patents" without
-    anyone being wrong on purpose.
+    Google Patents' inventor index returns only 25 grants under his full name —
+    against a known 39. Searching the variant "Rao Yalamanchili" returns more,
+    mixed with fin-stabilized ammunition and percussion primers from a US Army
+    ordnance researcher who shares the surname. At least five unrelated people
+    publish under "Yalamanchili," including one with the same full name in an
+    adjacent industry. That is how a family arrives at "about fifty patents"
+    without anyone being wrong on purpose.
   </p>
-  <p>
-    FreePatentsOnline surfaced nine grants no name-based search had connected to
-    him, including a late run — 2018, 2020, 2021, 2023 — invisible to every index.
-    The final list was verified the only way that is defensible: opening all 43
-    USPTO documents and reading the inventor block on each one.
-  </p>
+  <p>The rebuild ran in five steps:</p>
+  <ol>
+    <li><strong>Name variants.</strong> He appears in patent records as
+      "Madhava Rao Yalamanchili" and "M. Rao Yalamanchili." Neither
+      "Madhava R. Yalamanchili" nor "Madhava Yalamanchili" returns anything.</li>
+    <li><strong>Search by employer, not by name.</strong> Assignee queries are
+      independent of the broken inventor index:
+      <code>assignee="SCP Global Technologies"</code> plus the surname returned
+      exactly one patent, and <code>assignee="SunEdison"</code> (MEMC's later
+      name) one more. Neither early-career grant was on the family's list.</li>
+    <li><strong>A second index.</strong> FreePatentsOnline returned 48 records
+      for the surname; nine were his and absent from every previous search,
+      including a late run — 2018, 2020, 2021, 2023 — that no index had tied to
+      him.</li>
+    <li><strong>Exclusions.</strong> Five grants belonged to the ordnance
+      researcher; three more (continuous-casting slag from 1972, alumina
+      chlorination from 1986) predate his career entirely.</li>
+    <li><strong>Verification.</strong> All 43 USPTO documents were downloaded
+      and the inventor block read on each; two were additionally spot-checked at
+      high magnification against his name and city of record.</li>
+  </ol>
   <p>
     His publication record had the same disease. The authoritative bibliography
     was a Department of Energy grant report covering 1992–1998 — the university
@@ -225,6 +237,15 @@
       <img src="../assets/writing/card-impact-04.png" alt="Deep green postcard from the most-cited-work deck">
     </div>
     <p class="figcap">ONE CARD FROM EACH DECK: PATENTS IN NAVY, UTAH PAPERS IN CRIMSON, MOST-CITED WORK IN GREEN</p>
+  </div>
+
+  <div class="figure">
+    <div class="figure-row">
+      <img src="../assets/writing/card-patent-us6230720.png" alt="Navy patent postcard for US 6,230,720 showing the Fig. 1 process flowchart">
+      <img src="../assets/writing/card-utah-1996-ptfe.png" alt="Crimson postcard for a 1996 University of Utah PTFE surface chemistry paper">
+      <img src="../assets/writing/card-impact-09.png" alt="Deep green postcard from the most-cited-work deck">
+    </div>
+    <p class="figcap">THE US 6,230,720 CARD (LEFT) CARRIES THE FIG. 1 FLOWCHART THE PAGE CLASSIFIER INITIALLY MISSED — SEE BELOW</p>
   </div>
 
   <h2>the pipeline</h2>
@@ -268,6 +289,11 @@ python3 scripts/stories.py           # the two-pager</code></pre>
     <li>Two independent sources disagreed with Crossref on a 1996 journal issue number. Two against one: the sources won.</li>
   </ul>
 
+  <div class="figure">
+    <img src="../assets/writing/series-us8598016.png" alt="Letter-size page from the patent series: the official USPTO front page of US 8,598,016 with a plain-English strip beneath it">
+    <p class="figcap">THE LETTER SERIES: EACH PAGE IS THE OFFICIAL USPTO FRONT PAGE PLUS A PLAIN-ENGLISH STRIP FOR NON-TECHNICAL READERS</p>
+  </div>
+
   <h2>typography at postcard scale</h2>
   <p>
     The book's diagrams carry small captions that vanish at 3.5 inches, so the
@@ -289,28 +315,18 @@ python3 scripts/stories.py           # the two-pager</code></pre>
     Forward citations turn a vague claim into a checkable one: when a company
     files a patent, the filing lists the prior art its engineers and the examiner
     identified. Across a ten-patent sample, his work is cited by TSMC, Samsung,
-    IBM, Intel, Micron, Infineon, and onsemi. The single best fact on the table:
-    US 8,598,016 describes cutting a wafer <em>without a saw</em> — and it is cited
-    twice by Disco Corporation, who build most of the world's wafer-cutting saws.
-  </p>
-  <blockquote>
-    When the reigning champion of the blade cites your patent on not using a
-    blade, that is the incumbent watching the challenger.
-  </blockquote>
-  <p>
-    A citation is not a shipment — it documents professional acknowledgment, not a
-    product on a shelf. The display materials say so in print, and so does this
-    page. With that caveat made: more than nine hundred citations of his published
-    work, an h-index of 16 on Crossref's undercount, and patents cited by the
-    biggest names in the industry make a concrete case that quiet infrastructure
-    work compounds.
+    IBM, Intel, Micron, Infineon, and onsemi. Two specifics: US 8,598,016, on
+    singulating a wafer by laser scribe and plasma etch rather than a saw, is
+    cited twice by Disco Corporation — the dominant manufacturer of wafer-cutting
+    saws. US 9,177,864 is cited by exactly two patents, both held by TSMC.
   </p>
   <p>
-    The question never changed. In 1990 it was salt crystals in brine. In 2001, a
-    polished wafer in a rinse tank. In 2005, a bubble small enough to lift a
-    particle without denting what lay beneath it. In 2024 — his final working
-    year, still publishing — an EUV photomask, and the chips that have not been
-    built yet.
+    A citation is not a shipment — it documents that another company's engineers
+    or a patent examiner identified the work as relevant prior art, not that a
+    method shipped in a product. The display materials state this in print, and
+    so does this page. The counts themselves: more than nine hundred citations of
+    his published work (a floor — Crossref misses conference proceedings, books,
+    and all patent citations), and an h-index of 16 on the same undercount.
   </p>
 
   <p class="article-footer">
