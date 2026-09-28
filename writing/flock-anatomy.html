@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building the Flock Camera Reference — Vivek Yalamanchili</title>
+  <meta name="description" content="How a nine-page, source-checked reference for a Flock Safety license plate reader was built in twenty days: parametric 3D from content files, a 176-row tagged bibliography, an outcomes dataset joined to 96,484 mapped cameras, and why the camera runs on LTE, not 5G.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23151D27'/%3E%3Crect x='7' y='14' width='6' height='11' fill='none' stroke='%23CBD5DF' stroke-width='1.5'/%3E%3Crect x='14' y='8' width='6' height='17' fill='none' stroke='%23CBD5DF' stroke-width='1.5'/%3E%3Crect x='21' y='17' width='6' height='8' fill='none' stroke='%23CBD5DF' stroke-width='1.5'/%3E%3Ccircle cx='17' cy='5' r='1.5' fill='%237288A0'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    /* Article layout — scoped to this page, on top of the site stylesheet */
+    body { background: var(--paper); color: var(--ink); }
+    .article-page {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: clamp(96px, 14vh, 150px) clamp(20px, 5vw, 40px) clamp(64px, 9vh, 110px);
+    }
+    .article-page .eyebrow { text-align: left; }
+    .article-h1 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(2.1rem, 6vw, 3.4rem);
+      line-height: 1.08;
+      text-transform: lowercase;
+      margin: 14px 0 10px;
+    }
+    .article-standfirst { font-size: 0.95rem; color: var(--ink-60); margin: 14px 0 0; max-width: 42em; }
+    .article-byline {
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      letter-spacing: 0.16em;
+      color: var(--ink-40);
+      margin-top: 18px;
+      padding-bottom: 26px;
+      border-bottom: 1px solid var(--line-l);
+    }
+    .article-page h2 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(1.4rem, 3vw, 1.85rem);
+      text-transform: lowercase;
+      margin: 52px 0 12px;
+    }
+    .article-page p { margin: 14px 0; font-size: 0.92rem; }
+    .article-page li { font-size: 0.92rem; margin: 6px 0; }
+    .article-page ul, .article-page ol { padding-left: 1.3em; margin: 14px 0; }
+    .article-page strong { font-weight: 500; }
+    .article-page a { color: inherit; text-underline-offset: 3px; }
+    .article-page code, .article-page pre { font-family: var(--mono); font-size: 0.78rem; }
+    .article-page code { background: rgba(20, 26, 32, 0.06); padding: 1px 5px; border-radius: 4px; }
+    .stat-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 0.85rem; }
+    .stat-table td { padding: 8px 10px 8px 0; border-bottom: 1px solid var(--line-l); }
+    .stat-table td:last-child { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-align: right; white-space: nowrap; }
+    .article-footer {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line-l);
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      letter-spacing: 0.14em;
+      color: var(--ink-40);
+    }
+    .article-footer a { overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar topbar-solid">
+  <span class="topbar-id">✦&nbsp; VY — FIELD NOTES</span>
+  <nav class="topbar-nav" aria-label="Back">
+    <a href="../#writing">← ALL WRITING</a>
+    <a href="../">PORTFOLIO</a>
+  </nav>
+  <span class="topbar-rev">( 02 )</span>
+</header>
+
+<main class="article-page">
+  <p class="eyebrow">PROJECT WRITE-UP · SEP 2026</p>
+  <h1 class="article-h1">building the flock camera reference</h1>
+  <p class="article-standfirst">
+    Flock Safety license plate readers are on more than 96,000 documented poles
+    in the United States, and the public argument about them runs mostly on
+    claims nobody checks. Anatomy of a Flock Camera is a nine-page reference
+    that puts the checkable record in one place: the hardware part by part, the
+    data path from capture to deletion, the contracts, the published outcomes,
+    and twenty-one common claims tested against cited documents. This is how it
+    was built in twenty days, what the hardware taught me about the cellular
+    IoT market, and what broke along the way.
+  </p>
+  <p class="article-byline">VIVEK YALAMANCHILI · BUILT WITH CLAUDE FABLE 5 · VITE + TYPESCRIPT · THREE.JS · BLENDER · PLAYWRIGHT</p>
+
+  <h2>ground rules</h2>
+  <p>
+    Five rules held for the whole project. Every number on the site lives in a
+    JSON content file, and every entry carries a sources array pointing into one
+    bibliography that grew from about 60 rows to 176. Each source is tagged by
+    origin (company, independent, government, or court) so a reader can tell a
+    Flock statement from an independently documented one; where they disagree,
+    both are cited. The build refuses to run if a claim cites a source id that
+    does not exist or a listed still image is missing. Copy stays neutral: a
+    camera that reads a plate "reads a plate", and an audit that found 71% of
+    alerts wrong is reported with its denominator and the agency's own
+    explanation. Nothing ships unverified: TypeScript typecheck, production
+    build, a five-test Playwright suite, and a viewport sweep of every page at
+    eight sizes, with zero findings required before every push.
+  </p>
+
+  <h2>the 3d pipeline</h2>
+  <p>
+    The models are parametric. Blender scripts read the same content files as
+    the site and emit four GLB files; the Falcon's fourteen parts are named
+    nodes, so a corrected measurement in the content changes the geometry and
+    the exploded view follows. Enclosure, pole, and panel dimensions are Flock's
+    own published figures; parts marked "estimated" are sized from the published
+    envelope and teardown photographs. The same models render 26 stills with
+    Cycles. Phones never download a 3D engine: they get the stills and about
+    60 KB of JavaScript. Desktops get WebGPU where available, WebGL2 otherwise,
+    and fall back to the stills if no engine starts. A source checker refuses to
+    build if a listed still is missing, so the manifest and the images cannot
+    drift apart.
+  </p>
+
+  <h2>the lte chip, and why iot does not want 5g</h2>
+  <p>
+    The most instructive part in the enclosure is the modem. The Falcon's sole
+    data path is an LTE module (a Sierra Wireless RC76-series on current units,
+    FCC ID N7NRC76B; a NimbeLink Skywire on older ones) with a carrier SIM
+    included in the subscription. There is no wired network interface. Public
+    sources disagree on whether it runs LTE Cat-1 or Cat-4, and the site records
+    that dispute rather than resolving it. Either way, a camera sold on
+    AI-powered vehicle intelligence moves its data over a radio generation that
+    launched in 2009, and that is not a compromise. It is the correct
+    engineering choice, and the module market says so.
+  </p>
+  <p>
+    A solar-and-battery device that uploads plate crops and metadata needs tens
+    of kilobits per second sustained, single-digit watts peak, a module that
+    costs a few dollars, and coverage on any rural roadside. LTE Cat-1 delivers
+    all four; 5G delivers none of them at comparable cost or power. The industry
+    shipped accordingly. In 2025, global cellular IoT module shipments grew 15%
+    year over year, and <strong>LTE Cat-1 bis alone accounted for roughly half
+    of all shipments</strong>, the single largest technology in the market
+    (<a href="https://counterpointresearch.com/en/insights/global-cellular-iot-module-shipments-in-2025">Counterpoint Research</a>).
+    Add the other LTE categories still shipping at volume (Cat-1, Cat-M, Cat-4
+    and above) and LTE-family modules made up on the order of 60% of cellular
+    IoT module shipments last year, while 5G, RedCap included, stayed in the
+    single digits and NB-IoT eased back from its 2024 peak
+    (<a href="https://iot-analytics.com/cellular-iot-market-update-spring-2026/">IoT Analytics</a>).
+    The forecasts point the same way: Cat-1 bis is projected to remain the
+    volume leader through 2030, with RedCap only beginning its ramp.
+  </p>
+  <p>
+    The general lesson: IoT demand is for cheap, low-power, good-enough links
+    with mature coverage, not peak throughput. For anyone building connected
+    infrastructure, the Falcon is a working example of the market's revealed
+    preference. The premium radio is not the one doing the volume.
+  </p>
+  <p>
+    One correction from the research is worth recording. The modem citation
+    originally pointed at FCC grantee code 2BMEK, which turned out to belong to
+    an unrelated gauge company. Flock's own grantee code, 2BKG8, was registered
+    in August 2024 and has no filings: the Falcon uses pre-certified radio
+    modules, so the product itself never appears in the FCC's database. The
+    point survived; the citation was replaced.
+  </p>
+
+  <h2>the outcomes page</h2>
+  <p>
+    The hardest page asked what the cameras produce, not where they are. Three
+    research surveys (about 300 searches, about 45 reports read) found that
+    almost nothing ties a specific camera to a specific outcome in public.
+    What exists: one per-site table anywhere in the country (Metro Nashville's
+    2023 pilot report: 443 verified hits, 25 stops, 18 arrests, 22 recoveries
+    across 24 intersections), one county's export of hot-list hits reviewed as
+    wrong (Story County, Iowa: 214 rows, 77% "wrong state"), one city's
+    dispatch layer with a FLOCK nature code (Tucson), a Connecticut town's fact
+    sheet naming cameras in ten cases, a court opinion naming one camera, and a
+    news-derived dataset of 1,743 reported outcomes. Every located record was
+    geocoded and joined by haversine distance to the nearest of 96,484 mapped
+    Flock cameras from the hourly OpenStreetMap export; a record counts as
+    matched within 150 metres. Every rung a source did not report is shown as
+    "not reported", never as zero, and the page states in numbers that most
+    mapped cameras have no public outcome record at all.
+  </p>
+  <p>
+    Geocoding was the fight. Nominatim cannot resolve street intersections;
+    Overpass instances reset connections or timed out at ten minutes per failed
+    road; and two innocent query-shape changes invalidated every cache key,
+    turning cache hits back into 504s. The fix was to normalise cache lookups on
+    the semantic query rather than its literal text, and to add an offline mode
+    that builds from caches alone: 220 of 239 locations placed, the 19
+    unresolved labelled as such on the page.
+  </p>
+
+  <h2>what else broke</h2>
+  <ul>
+    <li>The site's shape changed four times (one long scroll, tabs, one
+      document, separate pages) and every earlier deep link still resolves, so
+      nothing shared early ever broke.</li>
+    <li>An exploded view with fourteen leader-lined callouts was judged
+      unreadable. Ten alternative mockups later, a knolling grid won: parts at
+      consistent scale in five groups, with a see-through locator beside it.</li>
+    <li>A build-environment proxy hung the browser's load event on third-party
+      font requests, stalling tests for hours until every automated navigation
+      waited for commit instead of load.</li>
+    <li>The current-stop rule on the journey page was wrong three times at
+      different viewport heights before a rule combining header position and
+      scroll fraction survived checks at eight sizes.</li>
+  </ul>
+
+  <h2>the build in numbers</h2>
+  <table class="stat-table">
+    <tr><td>Pages</td><td>9</td></tr>
+    <tr><td>Commits, 4 to 23 September 2026</td><td>29</td></tr>
+    <tr><td>Bibliography rows, tagged by origin</td><td>176</td></tr>
+    <tr><td>Content files validated by schema at build</td><td>12 JSON</td></tr>
+    <tr><td>Parametric 3D models</td><td>4 GLB</td></tr>
+    <tr><td>Rendered stills</td><td>26</td></tr>
+    <tr><td>Mapped readers joined against</td><td>116,723</td></tr>
+    <tr><td>Outcome locations placed / with records</td><td>220 / 239</td></tr>
+    <tr><td>Viewport sweep per push</td><td>9 PAGES × 8 SIZES</td></tr>
+  </table>
+
+  <h2>tooling</h2>
+  <p>
+    The site was built in Claude Code sessions running <strong>Claude Fable
+    5</strong>, working against the rules above: content changes gated by the
+    source checker, larger changes planned and approved before implementation,
+    and zero sweep findings before every push. The repository itself stays
+    authored by me; the model is credited here and on the project card rather
+    than in the commit history. The full process record, including the parts
+    that went wrong, is in the repo at <code>docs/process.md</code>.
+  </p>
+
+  <p class="article-footer">
+    LIVE: <a href="https://realvivek.github.io/Flock/">REALVIVEK.GITHUB.IO/FLOCK</a> ·
+    SOURCE: <a href="https://github.com/realvivek/Flock">GITHUB.COM/REALVIVEK/FLOCK</a> ·
+    MARKET DATA: COUNTERPOINT RESEARCH (2025 SHIPMENTS), IOT ANALYTICS (SPRING 2026 UPDATE)
+  </p>
+</main>
+
+</body>
+</html>

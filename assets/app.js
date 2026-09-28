@@ -25,6 +25,7 @@ var PROJECTS = [
   {
     index: '/ 01 /',
     name: 'anatomy of a flock camera',
+    model: 'BUILT WITH CLAUDE FABLE 5',
     desc: 'A scroll-driven 3D reference for a Flock Safety license plate ' +
           'reader: pole and mount options with installer callouts, the Falcon ' +
           'V2 enclosure exploded into fourteen components with part numbers, ' +
@@ -39,6 +40,7 @@ var PROJECTS = [
   {
     index: '/ 02 /',
     name: 'the consolidation',
+    model: 'BUILT WITH CLAUDE OPUS 5',
     desc: 'Forty years of telecom mergers as a river of light — every company ' +
           'a glowing thread through time, every deal a confluence where one ' +
           'stream absorbs another. Scroll flies you from the 1984 Bell breakup ' +
@@ -50,6 +52,7 @@ var PROJECTS = [
   {
     index: '/ 03 /',
     name: 'decibel',
+    model: 'BUILT WITH CLAUDE OPUS 5',
     desc: 'An interactive dB-math playground set on a hand-drawn small-cell ' +
           'street. Turn a dial until factors of ten feel natural, steer a ' +
           'phased array driven by the real array factor, and walk a link ' +
@@ -62,6 +65,7 @@ var PROJECTS = [
   {
     index: '/ 04 /',
     name: 'rf concepts in smart cities',
+    model: 'BUILT WITH CLAUDE OPUS 5',
     desc: 'Six interactive 3D lessons in urban radio engineering — steer a 5G ' +
           'beam through a procedural downtown, densify a city with small ' +
           'cells, and place AI workloads at the edge. Real propagation math, ' +
@@ -73,6 +77,7 @@ var PROJECTS = [
   {
     index: '/ 05 /',
     name: 'tx highway',
+    model: 'BUILT WITH CLAUDE OPUS 5',
     desc: 'Live Bitcoin and Ethereum traffic — every vehicle is a real mempool ' +
           'transaction streamed over public WebSockets, sized by USD value. ' +
           'Rewind replays the actual blocks from any past moment.',
@@ -83,6 +88,7 @@ var PROJECTS = [
   {
     index: '/ 06 /',
     name: 'spectral nexus',
+    model: 'BUILT WITH CLAUDE OPUS 4.6',
     desc: 'An interactive atlas of America’s broadband story — coverage gaps, ' +
           'BEAD funding flows, CBRS spectrum zones and RDOF defaults across all ' +
           '3,143 US counties. Every county is scored for opportunity, so the map ' +
@@ -97,6 +103,17 @@ var PROJECTS = [
    To add an article: append an object here. Nothing else to touch. */
 
 var ARTICLES = [
+  {
+    date: 'SEP 2026',
+    venue: 'PROJECT WRITE-UP',
+    title: 'Building the Flock camera reference: sourcing, 3D, and why IoT runs on LTE',
+    desc: 'How the nine-page Flock ALPR reference was built in twenty days: a ' +
+          '176-row tagged bibliography that gates the build, parametric Blender ' +
+          'models driven by content files, an outcomes dataset joined to 96,484 ' +
+          'mapped cameras, and what the camera\u2019s LTE modem says about the ' +
+          'cellular IoT market. Built with Claude Fable 5.',
+    url: 'writing/flock-anatomy.html'
+  },
   {
     date: 'AUG 2026',
     venue: 'PROJECT WRITE-UP',
@@ -132,6 +149,7 @@ var ARTICLES = [
         '<h3 class="rank-name">' + p.name + '</h3>' +
         '<p class="rank-desc">' + p.desc + '</p>' +
         '<p class="rank-tags">' + p.tags + '</p>' +
+        (p.model ? '<p class="rank-model">' + p.model + '</p>' : '') +
         '<nav class="rank-links">' +
           '<a class="pill" href="' + p.url + '" target="_blank" rel="noopener">→&nbsp; LAUNCH</a>' +
           (p.source ? '<a class="pill" href="' + p.source + '" target="_blank" rel="noopener">SOURCE</a>' : '') +
