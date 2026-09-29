@@ -105,7 +105,7 @@ var ARTICLES = [
           '176-row tagged bibliography that gates the build, parametric Blender ' +
           'models driven by content files, an outcomes dataset joined to 96,484 ' +
           'mapped cameras, and what the camera\u2019s LTE modem says about the ' +
-          'cellular IoT market. Built with Claude Fable 5.',
+          'cellular IoT market. Vite, three.js, Blender, Playwright, Claude Fable 5.',
     url: 'writing/flock-anatomy.html'
   },
   {
