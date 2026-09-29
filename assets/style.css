@@ -340,13 +340,6 @@ html.no3d .chapter-hero .note-tr { display: none; }
   color: var(--blue);
   margin-top: 14px;
 }
-.rank-model {
-  font-family: var(--mono);
-  font-size: 0.5rem;
-  letter-spacing: 0.16em;
-  color: var(--ink-40);
-  margin-top: 8px;
-}
 .rank-links {
   display: flex;
   justify-content: center;

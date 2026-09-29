@@ -25,7 +25,6 @@ var PROJECTS = [
   {
     index: '/ 01 /',
     name: 'anatomy of a flock camera',
-    model: 'BUILT WITH CLAUDE FABLE 5',
     desc: 'A scroll-driven 3D reference for a Flock Safety license plate ' +
           'reader: pole and mount options with installer callouts, the Falcon ' +
           'V2 enclosure exploded into fourteen components with part numbers, ' +
@@ -33,67 +32,62 @@ var PROJECTS = [
           'twelve stages from capture to deletion. Every figure and claim ' +
           'cites a public document, tagged by origin — company, independent, ' +
           'government, or court.',
-    tags: 'ALPR · WEBGPU / WEBGL · THREE.JS · CITED SOURCES',
+    tags: 'ALPR · WEBGPU / WEBGL · THREE.JS · CITED SOURCES · CLAUDE FABLE 5',
     url: 'https://realvivek.github.io/Flock/',
     source: 'https://github.com/realvivek/Flock'
   },
   {
     index: '/ 02 /',
     name: 'the consolidation',
-    model: 'BUILT WITH CLAUDE OPUS 5',
     desc: 'Forty years of telecom mergers as a river of light — every company ' +
           'a glowing thread through time, every deal a confluence where one ' +
           'stream absorbs another. Scroll flies you from the 1984 Bell breakup ' +
           'to today’s three giants; blocked deals snap back in red.',
-    tags: 'TELECOM M&A · 1984–2026 · THREE.JS · SCROLL',
+    tags: 'TELECOM M&A · 1984–2026 · THREE.JS · SCROLL · CLAUDE OPUS 5',
     url: 'https://telecom-consolidation.onrender.com',
     source: 'https://github.com/realvivek/telecom-consolidation'
   },
   {
     index: '/ 03 /',
     name: 'decibel',
-    model: 'BUILT WITH CLAUDE OPUS 5',
     desc: 'An interactive dB-math playground set on a hand-drawn small-cell ' +
           'street. Turn a dial until factors of ten feel natural, steer a ' +
           'phased array driven by the real array factor, and walk a link ' +
           'budget down the block — free-space loss, rain fade and the noise ' +
           'floor included, every model stated honestly in the footer.',
-    tags: 'RF · ANTENNAS · LINK BUDGET · CANVAS + SVG',
+    tags: 'RF · ANTENNAS · LINK BUDGET · CANVAS + SVG · CLAUDE OPUS 5',
     url: 'https://decibel-34c7.onrender.com',
     source: 'https://github.com/realvivek/decibel'
   },
   {
     index: '/ 04 /',
     name: 'rf concepts in smart cities',
-    model: 'BUILT WITH CLAUDE OPUS 5',
     desc: 'Six interactive 3D lessons in urban radio engineering — steer a 5G ' +
           'beam through a procedural downtown, densify a city with small ' +
           'cells, and place AI workloads at the edge. Real propagation math, ' +
           'each scene stating plainly what it teaches.',
-    tags: '5G · BEAMFORMING · EDGE AI · THREE.JS',
+    tags: '5G · BEAMFORMING · EDGE AI · THREE.JS · CLAUDE OPUS 5',
     url: 'https://smartcity-concept-gallery.onrender.com',
     source: 'https://github.com/realvivek/SmartcityConceptGallery'
   },
   {
     index: '/ 05 /',
     name: 'tx highway',
-    model: 'BUILT WITH CLAUDE OPUS 5',
     desc: 'Live Bitcoin and Ethereum traffic — every vehicle is a real mempool ' +
           'transaction streamed over public WebSockets, sized by USD value. ' +
           'Rewind replays the actual blocks from any past moment.',
-    tags: 'BITCOIN · ETHEREUM · WEBSOCKETS · CANVAS',
+    tags: 'BITCOIN · ETHEREUM · WEBSOCKETS · CANVAS · CLAUDE OPUS 5',
     url: 'https://txhighway.onrender.com',
     source: 'https://github.com/realvivek/txhighway'
   },
   {
     index: '/ 06 /',
     name: 'spectral nexus',
-    model: 'BUILT WITH CLAUDE OPUS 4.6',
     desc: 'An interactive atlas of America’s broadband story — coverage gaps, ' +
           'BEAD funding flows, CBRS spectrum zones and RDOF defaults across all ' +
           '3,143 US counties. Every county is scored for opportunity, so the map ' +
           'answers one question: where should the next network get built?',
-    tags: 'BEAD · CBRS · GIS · FUNDING',
+    tags: 'BEAD · CBRS · GIS · FUNDING · CLAUDE OPUS 4.6',
     url: 'https://spectral-nexus.onrender.com',
     source: 'https://github.com/realvivek/spectral-nexus'
   }
@@ -149,7 +143,6 @@ var ARTICLES = [
         '<h3 class="rank-name">' + p.name + '</h3>' +
         '<p class="rank-desc">' + p.desc + '</p>' +
         '<p class="rank-tags">' + p.tags + '</p>' +
-        (p.model ? '<p class="rank-model">' + p.model + '</p>' : '') +
         '<nav class="rank-links">' +
           '<a class="pill" href="' + p.url + '" target="_blank" rel="noopener">→&nbsp; LAUNCH</a>' +
           (p.source ? '<a class="pill" href="' + p.source + '" target="_blank" rel="noopener">SOURCE</a>' : '') +
