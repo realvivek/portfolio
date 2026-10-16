@@ -25,14 +25,13 @@ var PROJECTS = [
   {
     index: '/ 01 /',
     name: 'anatomy of a flock camera',
-    desc: 'A scroll-driven 3D reference for a Flock Safety license plate ' +
-          'reader: pole and mount options with installer callouts, the Falcon ' +
-          'V2 enclosure exploded into fourteen components with part numbers, ' +
-          'the power and network paths, and one detection traced through ' +
-          'twelve stages from capture to deletion. Every figure and claim ' +
-          'cites a public document, tagged by origin — company, independent, ' +
-          'government, or court.',
-    tags: 'ALPR · WEBGPU / WEBGL · THREE.JS · CITED SOURCES · CLAUDE FABLE 5',
+    desc: 'A data story on Flock Safety’s license plate readers, with eight ' +
+          'reference pages behind it. A scroll-driven map places more than ' +
+          '115,000 volunteer-mapped Flock cameras county by county; the pages ' +
+          'trace one plate read from capture to deletion, take the camera ' +
+          'apart in 3D, check 21 common claims, and set out contracts, prices ' +
+          'and outcomes. Every number cites one of 182 sources, tagged by origin.',
+    tags: 'ALPR · DATA STORY · OPENSTREETMAP · BABYLON.JS · CLAUDE FABLE 5',
     url: 'https://realvivek.github.io/Flock/',
     source: 'https://github.com/realvivek/Flock'
   },
