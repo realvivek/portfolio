@@ -97,17 +97,6 @@ var PROJECTS = [
 
 var ARTICLES = [
   {
-    date: 'SEP 2026',
-    venue: 'PROJECT WRITE-UP',
-    title: 'Building the Flock camera reference: sourcing, 3D, and why IoT runs on LTE',
-    desc: 'How the nine-page Flock ALPR reference was built in twenty days: a ' +
-          '176-row tagged bibliography that gates the build, parametric Blender ' +
-          'models driven by content files, an outcomes dataset joined to 96,484 ' +
-          'mapped cameras, and what the camera\u2019s LTE modem says about the ' +
-          'cellular IoT market. Vite, three.js, Blender, Playwright, Claude Fable 5.',
-    url: 'writing/flock-anatomy.html'
-  },
-  {
     date: 'AUG 2026',
     venue: 'PROJECT WRITE-UP',
     title: 'The retirement display: rebuilding a 34-year patent record, then printing it',
